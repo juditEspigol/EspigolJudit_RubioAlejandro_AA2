@@ -9,7 +9,13 @@ enum class TypeRoom {
 
 class Game
 {
+private:
+
 	Room actualRoom;
 
 	Player player;
+
+public:
+
+	
 };

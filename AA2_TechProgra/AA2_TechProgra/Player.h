@@ -12,14 +12,28 @@ class Player
 {
 private:
 
-	std::string m_name;
-
 	struct Pos
 	{
 		int x;
 		int y;
 	};
 
+	std::string m_name;
+
+	Pos pos;
+	
+public:
+
 	void SetName(const std::string name);
+
+	int GetPosX()
+	{
+		return pos.x;
+	}
+
+	int GetPosY()
+	{
+		return pos.y;
+	}
 };
 
