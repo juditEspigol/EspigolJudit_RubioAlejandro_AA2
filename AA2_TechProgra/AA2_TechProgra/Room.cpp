@@ -1,89 +1,68 @@
 #include "Room.h"
 
-Room::Room()
-{
-	m_width = 8;
-	m_height = 5;
 
-	myRoom = new Cell* [m_width];
-
-	for (int i = 0; i < m_width; i++)
-	{
-		myRoom[i] = new Cell[m_height];
-	}
-
-	for (int i = 0; i < m_width; i++)
-	{
-		for (int j = 0; j < m_height; j++)
-		{
-			if (myRoom[i][j].player.GetPosX() == i && myRoom[i][j].player.GetPosY() == j)
-			{
-				
-			}
-		}
-	}
-}
-
-Room::~Room()
-{
-	for (int i = 0; i < m_width; i++)
-	{
-		delete[] myRoom[i];
-	}
-
-	delete[] myRoom;
-	myRoom = nullptr;
-}
-
-
-/*
 // Constructor
-Room::Room(TypeRoom typeRoom, int numRows, int numColums)
+Room::Room(TypeOfRoom typeRoom, int numRows, int numColums)
 {
 	m_typeRoom = typeRoom;
-	m_numRows = numRows;
-	m_numColums = numColums;
-	m_prevDoor = numColums / 2;
-	m_nextDoor = numColums / 2;
+	m_width = numRows;
+	m_height = numColums;
+
+	if (m_typeRoom == TypeOfRoom::CLASSROOM)
+	{
+		m_prevDoor = -1;
+		m_nextDoor = numColums / 2;
+	}
+	else if (m_typeRoom == TypeOfRoom::HALL)
+	{
+		m_prevDoor = numColums / 2;
+		m_nextDoor = numColums / 2;
+	}
+	else if (m_typeRoom == TypeOfRoom::CAFE)
+	{
+		m_prevDoor = numColums / 2;
+		m_nextDoor = -1;
+	}
 }
 
 // Methods
-char** Room::InicializeRoom(const Player& p1)
+
+char** Room::CreateRoom(const Player& p1)
 {
 	// Create the 2D dynamic array
-	char** myRoom = new char* [m_numRows];
-	for (int y = 0; y < m_numRows; ++y)
+	char** myRoom = new char* [m_width];
+	for (int i = 0; i < m_width; ++i)
 	{
-		myRoom[y] = new char[m_numColums];
-		for (int x = 0; x < m_numColums; ++x)
+		myRoom[i] = new char[m_height];
+		for (int j = 0; j < m_height; ++j)
 		{
-			if (y == p1.m_posY && x == p1.m_posX)
+		    if (i == m_height - 1 && j == m_prevDoor)
 			{
-				myRoom[y][x] = '^';
+				myRoom[i][j] = printDoor;
 			}
-			else if (y == 0 && x == m_nextDoor)
+			else if (i == 0 && j == m_nextDoor)
 			{
-				myRoom[y][x] = CHAR_DOOR;
+				myRoom[i][j] = printDoor;
 			}
-			else if (y == 0 || y == m_numRows - 1 || x == 0 || x == m_numColums - 1)
+			else if (i == 0 || i == m_width - 1 || j == 0 || j == m_height - 1)
 			{
-				myRoom[y][x] = CHAR_WALL;
+				myRoom[i][j] = printWall;
 			}
 			else
 			{
-				myRoom[y][x] = CHAR_EMPTY;
+				myRoom[i][j] = printEmpty;
 			}
 		}
 	}
 	return myRoom;
 }
 
-void Room::PrintRoom(char** myRoom) const
+void Room::PrintRoom(char** myRoom)const
 {
-	for (int y = 0; y < m_numRows; ++y)
+	for (int y = 0; y < m_width; ++y)
 	{
 		std::cout << std::endl << " ";
-		for (int x = 0; x < m_numColums; ++x)
+		for (int x = 0; x < m_height; ++x)
 		{
 			std::cout << myRoom[y][x] << " ";
 		}
@@ -91,4 +70,17 @@ void Room::PrintRoom(char** myRoom) const
 	std::cout << std::endl;
 }
 
-*/
+int Room::GetWidth()
+{
+	return m_width;
+}
+
+int Room::GetHeight()
+{
+	return m_height;
+}
+
+int Room::GetPrevDoor()
+{
+	return m_prevDoor;
+}

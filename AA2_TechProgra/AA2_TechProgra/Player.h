@@ -1,11 +1,13 @@
 #pragma once
 #include <iostream>
+#include <list>
+#include "Room.h"
 
 enum class Movement {
-	UP,
-	LEFT,
-	RIGHT,
-	DOWN
+	UP = '^',
+	LEFT = '<',
+	RIGHT = '>',
+	DOWN = 'v'
 };
 
 class Player
@@ -20,20 +22,19 @@ private:
 
 	std::string m_name;
 
-	Pos pos;
+	Pos m_pos;
+	char m_sprite;
 	
 public:
 
+	Player(std::list<Room>::iterator it);
+
 	void SetName(const std::string name);
 
-	int GetPosX()
-	{
-		return pos.x;
-	}
+	void PrintPlayer(const Movement& movement);
 
-	int GetPosY()
-	{
-		return pos.y;
-	}
+	int GetPosX()const;
+
+	int GetPosY()const;
 };
 
