@@ -1,4 +1,5 @@
 #include "Includes.h"
+#include <fstream>
 
 int main()
 {
@@ -10,6 +11,8 @@ int main()
     std::list<Room> rooms;
     for (int i = 0; i < static_cast<int>(TypeOfRoom::COUNT); ++i)
     {
+        int width, height;
+
         Room newRoom(static_cast<TypeOfRoom>(i), 5 * (i + 1), 5 * (i + 1));
         rooms.push_back(newRoom);
     }
@@ -18,8 +21,6 @@ int main()
     myRoom = actualRoomIt->CreateRoom(); 
 
     p1.InsertPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-
-    actualRoomIt->PrintRoom(myRoom);
 
     // CONFIGURATION
     const int FPS = 60;
@@ -57,23 +58,11 @@ int main()
         // render / draw
         
         // frame control
+
+        exitGame(isPlaying);
+
         Sleep(1000 / FPS);
 
         system("cls");
     }
-    /*  
-
-    actualRoomIt++;
-   
-    //Create the room which we stay in
-    char** actualRoom = actualRoomIt->CreateRoom(p1);
-    
-    actualRoomIt->PrintRoom(actualRoom);
-
-    actualRoomIt++;
-    char** actualRoom2 = actualRoomIt->CreateRoom(p1);
-
-    actualRoomIt->PrintRoom(actualRoom2);
-
-    */
 }

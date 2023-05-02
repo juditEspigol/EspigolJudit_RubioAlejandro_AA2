@@ -1,11 +1,5 @@
 #pragma once
-#include "Player.h"
-
-
-const char printDoor = 'D';
-const char printPlayer = 'P';
-const char printWall = 'X';
-const char printEmpty = ' ';
+#include "Includes.h"
 
 enum class TypeOfRoom {
 	CLASSROOM,
@@ -36,12 +30,12 @@ public:
 
 	void SetPlayer(char** myRoom);
 
-	int GetWidth();
+	int GetWidth()const;
 
-	int GetHeight();
+	int GetHeight()const;
 
-	int GetNextDoor();
+	int GetNextDoor()const;
 
-	int GetPrevDoor();
+	int GetPrevDoor()const;
 };
 

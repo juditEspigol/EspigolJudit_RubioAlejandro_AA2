@@ -38,22 +38,23 @@ char** Room::CreateRoom()
 		{
 		    if (i == m_height - 1 && j == m_prevDoor)
 			{
-				myRoom[i][j] = printDoor;
+				myRoom[i][j] = CHAR_DOOR;
 			}
 			else if (i == 0 && j == m_nextDoor)
 			{
-				myRoom[i][j] = printDoor;
+				myRoom[i][j] = CHAR_DOOR;
 			}
 			else if (i == 0 || i == m_width - 1 || j == 0 || j == m_height - 1)
 			{
-				myRoom[i][j] = printWall;
+				myRoom[i][j] = CHAR_WALL;
 			}
 			else
 			{
-				myRoom[i][j] = printEmpty;
+				myRoom[i][j] = CHAR_EMPTY;
 			}
 		}
 	}
+
 	return myRoom;
 }
 
@@ -70,22 +71,22 @@ void Room::PrintRoom(char** myRoom)const
 	std::cout << std::endl;
 }
 
-int Room::GetWidth()
+int Room::GetWidth()const
 {
 	return m_width;
 }
 
-int Room::GetHeight()
+int Room::GetHeight()const
 {
 	return m_height;
 }
 
-int Room::GetNextDoor()
+int Room::GetNextDoor()const
 {
 	return m_nextDoor;
 }
 
-int Room::GetPrevDoor()
+int Room::GetPrevDoor()const
 {
 	return m_prevDoor;
 }

@@ -12,34 +12,42 @@ class Player
 {
 private:
 
-	std::string m_name = "Link";
+	std::string m_name;
 
 	int m_posX; 
 	int m_posY;
 
 	Movement m_move; 
-	char m_sprite = static_cast<char>(Movement::UP);
+	char m_sprite;
 	
 public:
 
-	void InsertPlayer(char**& myRoom, const int& width, const int& height); 
+	Player();
 
-	void SetPosition(char**& myRoom); 
+	void InsertPlayer(char** myRoom, const int& width, const int& height); 
 
-	void MovementPlayer(char** myRoom, int width, int height);
+	void SetPosition(char** myRoom); 
 
-	bool CollidesWithNextDoor(int nextDoorX); 
+	void MovementPlayer(char** myRoom,const int& width,const int& height);
 
-	bool CollidesWithPrevtDoor(int prevDoorX, int height); 
+	bool CheckNextPos(char** myRoom);
+
+	void ClearPosPlayer(char** myRoom);
+
+	bool CollidesWithNextDoor(const int& nextDoorX); 
+
+	bool CollidesWithPrevtDoor(const int& prevDoorX,const int& height); 
 
 	void SetName(const std::string name);
 
 	void PrintPlayer(const Movement& movement);
 
-	char GetSprite()const; 
+	char GetSprite()const;
 
 	int GetPosX()const;
 
 	int GetPosY()const;
+
+	
 };
 
