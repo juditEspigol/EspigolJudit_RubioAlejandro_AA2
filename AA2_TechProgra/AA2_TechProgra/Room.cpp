@@ -27,7 +27,7 @@ Room::Room(TypeOfRoom typeRoom, int numRows, int numColums)
 
 // Methods
 
-char** Room::CreateRoom(const Player& p1)
+char** Room::CreateRoom()
 {
 	// Create the 2D dynamic array
 	char** myRoom = new char* [m_width];
@@ -78,6 +78,11 @@ int Room::GetWidth()
 int Room::GetHeight()
 {
 	return m_height;
+}
+
+int Room::GetNextDoor()
+{
+	return m_nextDoor;
 }
 
 int Room::GetPrevDoor()

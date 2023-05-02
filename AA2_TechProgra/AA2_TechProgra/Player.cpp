@@ -1,11 +1,20 @@
 #include "Player.h"
 
 
-Player::Player(std::list<Room>::iterator it)
+void Player::InsertPlayer(char**& myRoom, const int& width, const int& height)
 {
-	m_pos.x = it->GetWidth() / 2;
-	m_pos.y = it->GetHeight() - 1;
+	m_posX = width / 2;
+	m_posY = height - 2;
+
+	SetPosition(myRoom); 
 }
+
+//Method private
+void Player::SetPosition(char**& myRoom)
+{
+	myRoom[m_posY][m_posX] = m_sprite;
+}
+
 void Player::SetName(const std::string name)
 {
 	m_name = name;
@@ -33,15 +42,88 @@ void Player::PrintPlayer(const Movement& movement)
 	std::cout << m_sprite;
 }
 
+char Player::GetSprite()const
+{
+	return m_sprite;
+}
+
 int Player::GetPosX()const
 {
-	return m_pos.x;
+	return m_posX;
 }
 
 int Player::GetPosY()const
 {
-	return m_pos.y;
+	return m_posY;
 }
+
+bool Player::CollidesWithNextDoor(int nextDoorX)
+{
+	if (m_posX == nextDoorX && m_posY == 0)
+		return true; 
+	return false; 
+}
+bool Player::CollidesWithPrevtDoor(int prevDoorX, int height)
+{
+	if (m_posX == prevDoorX && m_posY == height - 1)
+		return true;
+	return false;
+}
+
+
+void Player::MovementPlayer(char** myRoom, int width, int height)
+{
+	// detectar si el moviment es valid o no
+	// moures
+	// canviar d'sprite
+	// eliminar las seva posicio anterior a l'array 
+
+
+	// GetAsyncKeyState(VK_ESCAPE) == boolean // fa sol el cin
+	if (GetAsyncKeyState(VK_UP))
+	{
+		if (m_posY > 0)
+		{
+			m_move = Movement::UP;
+			m_posY--;
+			SetPosition(myRoom);
+		}
+	}
+	else if (GetAsyncKeyState(VK_DOWN))
+	{
+		if (m_posY < height - 1)
+		{
+			m_move = Movement::DOWN;
+			m_posY++;
+			SetPosition(myRoom);
+		}
+	}
+	else if (GetAsyncKeyState(VK_LEFT))
+	{
+		if (m_posX > 0)
+		{
+			m_move = Movement::UP;
+			m_posX--;
+			SetPosition(myRoom);
+		}
+	}
+	else if (GetAsyncKeyState(VK_RIGHT))
+	{
+		if (m_posX < width - 1)
+		{
+			m_move = Movement::DOWN;
+			m_posX++;
+			SetPosition(myRoom);
+		}
+		
+	}
+
+	
+
+}
+
+
+/*
 
 void SetPosition(std::list<Room>::iterator it, char** room)
 {
@@ -52,3 +134,4 @@ void SetPosition(std::list<Room>::iterator it, char** room)
 	//		width = door
 	//		m_pos.y = it-> m_height - 1 ;
 }
+*/

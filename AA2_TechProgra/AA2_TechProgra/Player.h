@@ -1,7 +1,5 @@
 #pragma once
-#include <iostream>
-#include <list>
-#include "Room.h"
+#include "Includes.h"
 
 enum class Movement {
 	UP = '^',
@@ -14,24 +12,31 @@ class Player
 {
 private:
 
-	struct Pos
-	{
-		int x;
-		int y;
-	};
+	std::string m_name = "Link";
 
-	std::string m_name;
+	int m_posX; 
+	int m_posY;
 
-	Pos m_pos;
-	char m_sprite;
+	Movement m_move; 
+	char m_sprite = static_cast<char>(Movement::UP);
 	
 public:
 
-	Player(std::list<Room>::iterator it);
+	void InsertPlayer(char**& myRoom, const int& width, const int& height); 
+
+	void SetPosition(char**& myRoom); 
+
+	void MovementPlayer(char** myRoom, int width, int height);
+
+	bool CollidesWithNextDoor(int nextDoorX); 
+
+	bool CollidesWithPrevtDoor(int prevDoorX, int height); 
 
 	void SetName(const std::string name);
 
 	void PrintPlayer(const Movement& movement);
+
+	char GetSprite()const; 
 
 	int GetPosX()const;
 

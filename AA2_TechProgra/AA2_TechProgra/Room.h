@@ -18,17 +18,6 @@ class Room
 {
 private:
 
-	struct Cell
-	{
-
-		struct Door
-		{
-			int posX;
-		};
-
-		Player player;
-	};
-
 	TypeOfRoom m_typeRoom;
 
 	int m_prevDoor;
@@ -41,7 +30,7 @@ public:
 
 	Room(TypeOfRoom typeofRoom, int numRows, int numColums);
 
-	char** CreateRoom(const Player& p1);
+	char** CreateRoom();
 
 	void PrintRoom(char** myRoom) const;
 
@@ -50,6 +39,8 @@ public:
 	int GetWidth();
 
 	int GetHeight();
+
+	int GetNextDoor();
 
 	int GetPrevDoor();
 };
