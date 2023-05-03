@@ -36,7 +36,7 @@ char** Room::CreateRoom()
 		myRoom[i] = new char[m_height];
 		for (int j = 0; j < m_height; ++j)
 		{
-		    if (i == m_height - 1 && j == m_prevDoor)
+		    if (i == m_width - 1 && j == m_prevDoor)
 			{
 				myRoom[i][j] = CHAR_DOOR;
 			}
@@ -89,4 +89,15 @@ int Room::GetNextDoor()const
 int Room::GetPrevDoor()const
 {
 	return m_prevDoor;
+}
+
+void deleteDynamicArray(char** myRoom, std::list<Room>::iterator it)
+{
+	for (int i = 0; i < it->GetWidth(); i++)
+	{
+		delete[] myRoom[i];
+	}
+
+	delete[] myRoom;
+	myRoom = nullptr;
 }

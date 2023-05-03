@@ -9,7 +9,7 @@ Player::Player()
 void Player::InsertPlayer(char** myRoom, const int& width, const int& height)
 {
 	m_posX = width / 2;
-	m_posY = height - 2;
+	m_posY =  height - 2;
 
 	SetPosition(myRoom); 
 }
@@ -70,7 +70,7 @@ bool Player::CollidesWithNextDoor(const int& nextDoorX)
 	return false; 
 }
 
-bool Player::CollidesWithPrevtDoor(const int& prevDoorX,const int& height)
+bool Player::CollidesWithPrevDoor(const int& prevDoorX,const int& height)
 {
 	if (m_posX == prevDoorX && m_posY == height - 1)
 		return true;
@@ -81,12 +81,10 @@ bool Player::CollidesWithPrevtDoor(const int& prevDoorX,const int& height)
 void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 {
 	// detectar si el moviment es valid o no
+	// // canviar d'sprite
 	// moures
-	// canviar d'sprite
 	// eliminar las seva posicio anterior a l'array 
 
-
-	// GetAsyncKeyState(VK_ESCAPE) == boolean // fa sol el cin
 	if (GetAsyncKeyState(VK_UP))
 	{
 		m_move = Movement::UP;
@@ -99,17 +97,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 		}
 
 	}
-	else if (GetAsyncKeyState(VK_DOWN))
-	{
-		m_move = Movement::DOWN;
-		m_sprite = static_cast<char>(m_move);
 
-		if (CheckNextPos(myRoom))
-		{
-			ClearPosPlayer(myRoom);
-			m_posY++;
-		}
-	}
 	else if (GetAsyncKeyState(VK_LEFT))
 	{
 		m_move = Movement::LEFT;
@@ -121,6 +109,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 			m_posX--;
 		}
 	}
+
 	else if (GetAsyncKeyState(VK_RIGHT))
 	{
 		m_move = Movement::RIGHT;
@@ -131,13 +120,28 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 			m_posX++;
 		}
 	}
+
+	else if (GetAsyncKeyState(VK_DOWN))
+	{
+		m_move = Movement::DOWN;
+		m_sprite = static_cast<char>(m_move);
+
+		if (CheckNextPos(myRoom))
+		{
+			ClearPosPlayer(myRoom);
+			m_posY++;
+		}
+	}
+	
 	SetPosition(myRoom); 
 }
 
+// Clean the char of your pos before move
 void Player::ClearPosPlayer(char** myRoom)
 {
 	myRoom[m_posY][m_posX] = CHAR_EMPTY;
 }
+
 
 bool Player::CheckNextPos(char** myRoom)
 {

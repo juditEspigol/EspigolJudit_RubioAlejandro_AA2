@@ -24,11 +24,11 @@ public:
 
 	Room(TypeOfRoom typeofRoom, int numRows, int numColums);
 
+
+
 	char** CreateRoom();
 
 	void PrintRoom(char** myRoom) const;
-
-	void SetPlayer(char** myRoom);
 
 	int GetWidth()const;
 
@@ -39,3 +39,4 @@ public:
 	int GetPrevDoor()const;
 };
 
+void deleteDynamicArray(char** myRoom, std::list<Room>::iterator it);
