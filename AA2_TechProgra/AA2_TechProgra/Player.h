@@ -24,6 +24,7 @@ public:
 
 	Player();
 
+
 	void InsertPlayer(char** myRoom, const int& width, const int& height); 
 
 	void SetPosition(char** myRoom); 
@@ -36,7 +37,7 @@ public:
 
 	bool CollidesWithNextDoor(const int& nextDoorX); 
 
-	bool CollidesWithPrevtDoor(const int& prevDoorX,const int& height); 
+	bool CollidesWithPrevDoor(const int& prevDoorX,const int& height); 
 
 	void SetName(const std::string name);
 
@@ -47,7 +48,6 @@ public:
 	int GetPosX()const;
 
 	int GetPosY()const;
-
 	
 };
 
