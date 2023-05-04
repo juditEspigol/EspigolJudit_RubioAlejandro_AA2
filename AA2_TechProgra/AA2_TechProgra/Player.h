@@ -1,17 +1,18 @@
 #pragma once
 #include "Includes.h"
 
-enum class Movement {
-	UP = '^',
-	LEFT = '<',
-	RIGHT = '>',
-	DOWN = 'v'
+enum class Movement 
+{
+	UP,
+	LEFT,
+	RIGHT,
+	DOWN
 };
 
 class Player
 {
 private:
-
+	// ATTRIBUTES 
 	std::string m_name;
 
 	int m_posX; 
@@ -19,35 +20,35 @@ private:
 
 	Movement m_move; 
 	char m_sprite;
-	
-public:
 
-	Player();
-
-
-	void InsertPlayer(char** myRoom, const int& width, const int& height); 
-
-	void SetPosition(char** myRoom); 
-
-	void MovementPlayer(char** myRoom,const int& width,const int& height);
+	// METHODS 
+	void SetPosition(char** myRoom);
 
 	bool CheckNextPos(char** myRoom);
-
+	// Clean the char of your pos before move
 	void ClearPosPlayer(char** myRoom);
+	
+public:
+	// CONSTRUCTOR
+	Player();
 
-	bool CollidesWithNextDoor(const int& nextDoorX); 
+	// GETTERS
+	std::string GetName() const; 
+	int GetPosX() const;
+	int GetPosY() const;
 
-	bool CollidesWithPrevDoor(const int& prevDoorX,const int& height); 
-
-	void SetName(const std::string name);
-
+	// METHODS 
 	void PrintPlayer(const Movement& movement);
 
-	char GetSprite()const;
+	void MovementPlayer(char** myRoom, const int& width, const int& height);
 
-	int GetPosX()const;
+	void PosPlayerPrevRoom(char** myRoom, const int& width, const int& height);
+	void PosPlayerNextRoom(char** myRoom, const int& width, const int& height);
 
-	int GetPosY()const;
+
+	bool CollidesWithPrevDoor(const int& prevDoorX, const int& height);
+	bool CollidesWithNextDoor(const int& nextDoorX); 
+
 	
 };
 

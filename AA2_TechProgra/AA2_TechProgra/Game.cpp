@@ -1,7 +1,8 @@
 #include "Game.h"
 
-void exitGame(bool& isPlaying)
+bool exitGame()
 {
 	if (GetAsyncKeyState(VK_ESCAPE))
-		isPlaying = false;
+		return false;
+	return true; 
 }

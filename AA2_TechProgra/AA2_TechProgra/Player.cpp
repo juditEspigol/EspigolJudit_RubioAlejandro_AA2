@@ -1,96 +1,101 @@
 #include "Player.h"
 
+// CONSTRUCTOR
 Player::Player()
 {
 	m_name = "Link";
-	m_sprite = static_cast<char>(Movement::UP);
+	m_sprite = PLAYER_UP;
 }
 
-void Player::InsertPlayer(char** myRoom, const int& width, const int& height)
-{
-	m_posX = width / 2;
-	m_posY =  height - 2;
+ // GETTERS 
+std::string Player::GetName() const
+ {
+	 return m_name;
+ }
 
-	SetPosition(myRoom); 
-}
+int Player::GetPosX() const
+ {
+	 return m_posX;
+ }
 
-//Method private
+int Player::GetPosY() const
+ {
+	 return m_posY;
+ }
+
+ // PRIVATE METHODS 
 void Player::SetPosition(char** myRoom)
-{
-	myRoom[m_posY][m_posX] = m_sprite;
-}
+ {
+	 myRoom[m_posY][m_posX] = m_sprite;
+ }
 
-void Player::SetName(const std::string name)
-{
-	m_name = name;
-}
+bool Player::CheckNextPos(char** myRoom)
+ {
+	 bool canMove = true;
 
+	 switch (m_move)
+	 {
+	 case Movement::UP:
+		 if (myRoom[m_posY - 1][m_posX] == CHAR_WALL)
+			 canMove = false;
+		 break;
+	 case Movement::LEFT:
+		 if (myRoom[m_posY][m_posX - 1] == CHAR_WALL)
+			 canMove = false;
+		 break;
+	 case Movement::RIGHT:
+		 if (myRoom[m_posY][m_posX + 1] == CHAR_WALL)
+			 canMove = false;
+		 break;
+	 case Movement::DOWN:
+		 if (myRoom[m_posY + 1][m_posX] == CHAR_WALL)
+			 canMove = false;
+		 break;
+	 default:
+		 break;
+	 }
+
+	 return canMove;
+ }
+
+void Player::ClearPosPlayer(char** myRoom)
+ {
+	 myRoom[m_posY][m_posX] = CHAR_EMPTY;
+ }
+
+ // PUBLIC METHODS 
 void Player::PrintPlayer(const Movement& movement)
-{
-	switch (movement)
-	{
-	case Movement::UP:
-			m_sprite = static_cast<char>(Movement::UP);
-		break;
-	case Movement::LEFT:
-		m_sprite = static_cast<char>(Movement::LEFT);
-		break;
-	case Movement::RIGHT:
-		m_sprite = static_cast<char>(Movement::RIGHT);
-		break;
-	case Movement::DOWN:
-		m_sprite = static_cast<char>(Movement::DOWN);
-		break;
-	default:
-		break;
-	}
+ {
 
-	std::cout << m_sprite;
-}
-
-char Player::GetSprite()const
-{
-	return m_sprite;
-}
-
-int Player::GetPosX()const
-{
-	return m_posX;
-}
-
-int Player::GetPosY()const
-{
-	return m_posY;
-}
-
-bool Player::CollidesWithNextDoor(const int& nextDoorX)
-{
-	if (m_posX == nextDoorX && m_posY == 0)
-		return true; 
-	return false; 
-}
-
-bool Player::CollidesWithPrevDoor(const int& prevDoorX,const int& height)
-{
-	if (m_posX == prevDoorX && m_posY == height - 1)
-		return true;
-	return false;
-}
-
+	 switch (movement)
+	 {
+	 case Movement::UP:
+		 m_sprite = PLAYER_UP;
+		 break;
+	 case Movement::LEFT:
+		 m_sprite = PLAYER_LEFT;
+		 break;
+	 case Movement::RIGHT:
+		 m_sprite = PLAYER_RIGHT;
+		 break;
+	 case Movement::DOWN:
+		 m_sprite = PLAYER_DOWN;
+		 break;
+	 default:
+		 break;
+	 }
+	 std::cout << m_sprite;
+ }
 
 void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 {
-	// detectar si el moviment es valid o no
-	// // canviar d'sprite
-	// moures
-	// eliminar las seva posicio anterior a l'array 
 
 	if (GetAsyncKeyState(VK_UP))
 	{
 		m_move = Movement::UP;
-		m_sprite = static_cast<char>(m_move);
+		m_sprite = PLAYER_UP;
 
-		if (CheckNextPos( myRoom))
+		if (CheckNextPos(myRoom))
 		{
 			ClearPosPlayer(myRoom);
 			m_posY--;
@@ -101,7 +106,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 	else if (GetAsyncKeyState(VK_LEFT))
 	{
 		m_move = Movement::LEFT;
-		m_sprite = static_cast<char>(m_move);
+		m_sprite = PLAYER_LEFT;
 
 		if (CheckNextPos(myRoom))
 		{
@@ -113,7 +118,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 	else if (GetAsyncKeyState(VK_RIGHT))
 	{
 		m_move = Movement::RIGHT;
-		m_sprite = static_cast<char>(m_move);
+		m_sprite = PLAYER_RIGHT;
 		if (CheckNextPos(myRoom))
 		{
 			ClearPosPlayer(myRoom);
@@ -124,7 +129,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 	else if (GetAsyncKeyState(VK_DOWN))
 	{
 		m_move = Movement::DOWN;
-		m_sprite = static_cast<char>(m_move);
+		m_sprite = PLAYER_DOWN;
 
 		if (CheckNextPos(myRoom))
 		{
@@ -132,42 +137,36 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 			m_posY++;
 		}
 	}
-	
+
+	SetPosition(myRoom);
+}
+
+void Player::PosPlayerPrevRoom(char** myRoom, const int& width, const int& height)
+{
+	m_posY = 1;
+	m_posX = width / 2;
+
 	SetPosition(myRoom); 
 }
 
-// Clean the char of your pos before move
-void Player::ClearPosPlayer(char** myRoom)
+void Player::PosPlayerNextRoom(char** myRoom, const int& width, const int& height)
 {
-	myRoom[m_posY][m_posX] = CHAR_EMPTY;
+	m_posY = height - 2;
+	m_posX = width / 2;
+
+	SetPosition(myRoom);
 }
 
-
-bool Player::CheckNextPos(char** myRoom)
+bool Player::CollidesWithPrevDoor(const int& prevDoorX, const int& height)
 {
-	bool canMove = true;
+	if (m_posX == prevDoorX && m_posY == height - 1)
+		return true;
+	return false;
+}
 
-	switch (m_move)
-	{
-	case Movement::UP:
-		if (myRoom[m_posY - 1][m_posX] == CHAR_WALL)
-			canMove = false;
-		break;
-	case Movement::LEFT:
-		if (myRoom[m_posY][m_posX - 1] == CHAR_WALL)
-			canMove = false;
-		break;
-	case Movement::RIGHT:
-		if (myRoom[m_posY][m_posX + 1] == CHAR_WALL)
-			canMove = false;
-		break;
-	case Movement::DOWN:
-		if (myRoom[m_posY + 1][m_posX] == CHAR_WALL)
-			canMove = false;
-		break;
-	default:
-		break;
-	}
-
-	return canMove;
+bool Player::CollidesWithNextDoor(const int& nextDoorX)
+{
+	if (m_posX == nextDoorX && m_posY == 0)
+		return true; 
+	return false; 
 }

@@ -1,7 +1,8 @@
 #pragma once
 #include "Includes.h"
 
-enum class TypeOfRoom {
+enum class TypeOfRoom 
+{
 	CLASSROOM,
 	HALL,
 	CAFE,
@@ -11,7 +12,7 @@ enum class TypeOfRoom {
 class Room
 {
 private:
-
+	// ATTRIBUTES
 	TypeOfRoom m_typeRoom;
 
 	int m_prevDoor;
@@ -21,22 +22,19 @@ private:
 	int m_height;
 
 public:	
+	// CONSTRUCTOR 
+	Room(TypeOfRoom typeofRoom, int width, int heigth);
 
-	Room(TypeOfRoom typeofRoom, int numRows, int numColums);
-
-
-
-	char** CreateRoom();
-
-	void PrintRoom(char** myRoom) const;
-
+	// GETTERS 
 	int GetWidth()const;
-
 	int GetHeight()const;
 
+	int GetPrevDoor()const;
 	int GetNextDoor()const;
 
-	int GetPrevDoor()const;
+	// METHODS 
+	char** CreateRoom();
+	void PrintRoom(char** myRoom) const;
 };
 
 void deleteDynamicArray(char** myRoom, std::list<Room>::iterator it);
