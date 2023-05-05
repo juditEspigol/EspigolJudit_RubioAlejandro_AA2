@@ -9,11 +9,10 @@
 #include "Game.h"
 
 //COLORS LIST
-#define GRAY_BACKGROUND "\x1b[48;5;246m"
-#define YELLOW_TEXT "\x1b[38;5;11m"
-#define GREEN_TEXT "\x1b[38;5;49m"
-#define BLACK_TEXT "\x1b[30m"
-#define BLACK_BACKGROUND "\x1b[40m"
+const std::string GRAY_TEXT = "\x1b[38;5;246m";
+const std::string YELLOW_TEXT = "\x1b[38;5;11m";
+const std::string GREEN_TEXT = "\x1b[38;5;49m";
+const std::string RED_TEXT = "\x1b[31m";
 
 // ROOM CHARS
 const char CHAR_DOOR = 'P';

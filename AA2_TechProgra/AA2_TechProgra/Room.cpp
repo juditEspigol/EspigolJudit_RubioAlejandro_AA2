@@ -1,6 +1,5 @@
 #include "Room.h"
 
-
 // CONSTRUCTOR
 Room::Room(TypeOfRoom typeRoom, int width, int heigth)
 {
@@ -80,24 +79,24 @@ char** Room::CreateRoom()
 
 void Room::PrintRoom(char** myRoom)const
 {
+	printTypeOfRoom(m_typeRoom); 
 	for (int y = 0; y < m_height; ++y)
 	{
 		std::cout << std::endl; 
 		for (int x = 0; x < m_width; ++x)
 		{
-			std::cout << GRAY_BACKGROUND << " ";
+			std::cout << " ";
 			if (myRoom[y][x] == CHAR_DOOR)
 				std::cout << YELLOW_TEXT << myRoom[y][x];
 			else if (myRoom[y][x] != CHAR_WALL && myRoom[y][x] != CHAR_EMPTY)
 				std::cout << GREEN_TEXT << myRoom[y][x];
 			else
-				std::cout << BLACK_TEXT << myRoom[y][x];
+				std::cout << GRAY_TEXT << myRoom[y][x];
 			
 		}
 		std::cout << " "; 
 	}
 	std::cout << std::endl;
-	std::cout << BLACK_BACKGROUND;
 }
 
 // FUNCTIONS 
@@ -107,7 +106,28 @@ void deleteDynamicArray(char** myRoom, std::list<Room>::iterator it)
 	{
 		delete[] myRoom[i];
 	}
-
 	delete[] myRoom;
+
 	myRoom = nullptr;
+}
+
+void printTypeOfRoom(TypeOfRoom typeRoom)
+{
+	switch (typeRoom)
+	{
+	case TypeOfRoom::CLASSROOM:
+		std::cout << " -- CLASSROOM -- " << std::endl;
+		break;
+	case TypeOfRoom::HALL:
+		std::cout << " -- HALL -- " << std::endl;
+		break;
+	case TypeOfRoom::CAFE:
+		std::cout << " -- CAFE -- " << std::endl;
+		break;
+	case TypeOfRoom::COUNT:
+		std::cout << "  " << std::endl;
+		break;
+	default:
+		break;
+	}
 }

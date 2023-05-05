@@ -9,6 +9,9 @@ enum class TypeOfRoom
 	COUNT
 };
 
+void printTypeOfRoom(TypeOfRoom typeRoom); 
+
+
 class Room
 {
 private:
