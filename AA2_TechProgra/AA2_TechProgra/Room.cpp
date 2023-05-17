@@ -22,6 +22,12 @@ Room::Room(TypeOfRoom typeRoom, int width, int heigth)
 		m_prevDoor = width / 2;
 		m_nextDoor = -1;
 	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		RewardObject pot(width, m_height);
+		m_pots.push_back(pot);
+	}
 }
 
 // GETTERS

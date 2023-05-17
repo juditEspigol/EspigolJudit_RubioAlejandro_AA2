@@ -1,6 +1,7 @@
 #pragma once
-#include "Includes.h"
+#include "RewardObject.h"
 
+class RewardObject;
 enum class TypeOfRoom 
 {
 	CLASSROOM,
@@ -10,7 +11,6 @@ enum class TypeOfRoom
 };
 
 void printTypeOfRoom(TypeOfRoom typeRoom); 
-
 
 class Room
 {
@@ -23,6 +23,8 @@ private:
 
 	int m_width;
 	int m_height;
+
+	std::vector<RewardObject> m_pots;
 
 public:	
 	// CONSTRUCTOR 
@@ -41,3 +43,4 @@ public:
 };
 
 void deleteDynamicArray(char** myRoom, std::list<Room>::iterator it);
+

@@ -129,13 +129,17 @@
   <ItemGroup>
     <ClCompile Include="AA2_TechProgra.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Gem.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RewardObject.cpp" />
     <ClCompile Include="Room.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Gem.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RewardObject.h" />
     <ClInclude Include="Room.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

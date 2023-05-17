@@ -3,7 +3,10 @@
 #include <iostream>
 #include <list>
 #include <fstream>
+#include <vector>
+#include <queue>
 
+#include "RewardObject.h"
 #include "Player.h"
 #include "Room.h"
 #include "Game.h"
