@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Room.h"
 #include "Game.h"
+#include "Gem.h"
 
 //COLORS LIST
 const std::string GRAY_TEXT = "\x1b[38;5;246m";
@@ -22,6 +23,9 @@ const char CHAR_DOOR = 'P';
 const char CHAR_WALL = 'X';
 const char CHAR_EMPTY = ' ';
 const char CHAR_POT = 'O';
+const char CHAR_GEM_GREEN = '$';
+const char CHAR_GEM_BLUE = '#';
+const char CHAR_GEM_RED = '&';
 
 // PLAYER CHARS
 const char PLAYER_UP = '^'; 

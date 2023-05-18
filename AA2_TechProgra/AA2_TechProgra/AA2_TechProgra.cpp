@@ -71,6 +71,7 @@ int main()
 
         // PRINT ROOM
         actualRoomIt->PrintRoom(myRoom);
+        std::cout <<  " Rupias: " << p1.GetScore();
 
         Sleep(1000 / FPS);
         system("cls");

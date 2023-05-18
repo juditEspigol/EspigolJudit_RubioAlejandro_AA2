@@ -18,6 +18,8 @@ private:
 	int m_posX; 
 	int m_posY;
 
+	
+
 	Movement m_move; 
 	char m_sprite;
 
@@ -32,10 +34,13 @@ public:
 	// CONSTRUCTOR
 	Player();
 
+	int m_score;
+
 	// GETTERS
 	std::string GetName() const; 
 	int GetPosX() const;
 	int GetPosY() const;
+	int GetScore()const;
 
 	// METHODS 
 	void PrintPlayer(const Movement& movement);
@@ -49,7 +54,11 @@ public:
 
 
 	bool CollidesWithPrevDoor(const int& prevDoorX, const int& height);
-	bool CollidesWithNextDoor(const int& nextDoorX); 
+	bool CollidesWithNextDoor(const int& nextDoorX);
+	bool CheckGemInNextPosition(char** myRoom, const Movement& move);
+	void AddScore(char** myRoom, const Movement& move);
+
+	
 
 	
 };

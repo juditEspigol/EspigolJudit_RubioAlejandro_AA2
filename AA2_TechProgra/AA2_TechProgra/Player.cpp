@@ -5,6 +5,7 @@ Player::Player()
 {
 	m_name = "Link";
 	m_sprite = PLAYER_UP;
+	m_score = 0;
 }
 
  // GETTERS 
@@ -98,6 +99,8 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 		if (CheckNextPos(myRoom))
 		{
 			ClearPosPlayer(myRoom);
+			if (CheckGemInNextPosition(myRoom, m_move))
+				AddScore(myRoom,m_move);
 			m_posY--;
 		}
 
@@ -139,7 +142,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 	}
 	if (GetAsyncKeyState(VK_SPACE))
 	{
-		//Attack(m_move);
+		Attack(myRoom, m_move);
 	}
 
 	SetPosition(myRoom);
@@ -180,20 +183,75 @@ void Player::Attack(char** myRoom,const Movement& move)
 	switch (move)
 	{
 	case Movement::UP:
-		if(myRoom[m_posY-1][m_posX] == CHAR_POT)
-			
-
+		if (myRoom[m_posY - 1][m_posX] == CHAR_POT)
+			myRoom[m_posY - 1][m_posX] = spawnRandomGem(); //myRoom[m_posY - 1][m_posX] = CHAR_EMPTY;
 		break;
 	case Movement::LEFT:
-		m_sprite = PLAYER_LEFT;
+		if (myRoom[m_posY][m_posX - 1] == CHAR_POT)
+			myRoom[m_posY][m_posX - 1] = spawnRandomGem();
 		break;
 	case Movement::RIGHT:
-		m_sprite = PLAYER_RIGHT;
+		if (myRoom[m_posY][m_posX + 1] == CHAR_POT)
+			myRoom[m_posY][m_posX + 1] = spawnRandomGem();
 		break;
 	case Movement::DOWN:
-		m_sprite = PLAYER_DOWN;
+		if (myRoom[m_posY + 1][m_posX] == CHAR_POT)
+			myRoom[m_posY + 1][m_posX] = spawnRandomGem();
 		break;
 	default:
 		break;
 	}
 }
+
+int Player::GetScore()const
+{
+	return m_score;
+}
+
+bool Player::CheckGemInNextPosition(char** myRoom, const Movement& move)
+{
+	bool gemInNextPosition = false;
+
+	switch (move)
+	{
+	case Movement::UP:
+		if (myRoom[m_posY - 1][m_posX] == CHAR_GEM_GREEN
+			|| myRoom[m_posY - 1][m_posX] == CHAR_GEM_BLUE
+			|| myRoom[m_posY - 1][m_posX] == CHAR_GEM_RED)
+			gemInNextPosition = true;
+			
+		break;
+	case Movement::LEFT:
+		if (myRoom[m_posY - 1][m_posX] == CHAR_GEM_GREEN
+			|| myRoom[m_posY - 1][m_posX] == CHAR_GEM_BLUE
+			|| myRoom[m_posY - 1][m_posX] == CHAR_GEM_RED)
+			gemInNextPosition = true;
+		break;
+	case Movement::RIGHT:
+		if (myRoom[m_posY - 1][m_posX] == CHAR_GEM_GREEN
+			|| myRoom[m_posY - 1][m_posX] == CHAR_GEM_BLUE
+			|| myRoom[m_posY - 1][m_posX] == CHAR_GEM_RED)
+			gemInNextPosition = true;
+		break;
+	case Movement::DOWN:
+		if (myRoom[m_posY - 1][m_posX] == CHAR_GEM_GREEN
+			|| myRoom[m_posY - 1][m_posX] == CHAR_GEM_BLUE
+			|| myRoom[m_posY - 1][m_posX] == CHAR_GEM_RED)
+			gemInNextPosition = true;
+		break;
+	default:
+		break;
+	}
+	return gemInNextPosition;
+}
+
+void Player::AddScore(char** myRoom, const Movement& move)
+{
+	if (myRoom[m_posY - 1][m_posX] == CHAR_GEM_GREEN)
+		m_score++;
+	else if (myRoom[m_posY - 1][m_posX] == CHAR_GEM_BLUE)
+		m_score += 5;
+	else if (myRoom[m_posY - 1][m_posX] == CHAR_GEM_RED)
+		m_score += 20;
+}
+

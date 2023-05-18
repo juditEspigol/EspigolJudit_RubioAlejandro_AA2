@@ -106,6 +106,12 @@ void Room::PrintRoom(char** myRoom)const
 				std::cout << YELLOW_TEXT << myRoom[y][x];
 			else if (myRoom[y][x] == CHAR_POT)
 				std::cout << RED_TEXT << myRoom[y][x];
+			else if (myRoom[y][x] == CHAR_GEM_GREEN)
+				std::cout << GREEN_TEXT << myRoom[y][x];
+			else if (myRoom[y][x] == CHAR_GEM_BLUE)
+				std::cout << GRAY_TEXT << myRoom[y][x];
+			else if (myRoom[y][x] == CHAR_GEM_RED)
+				std::cout << RED_TEXT << myRoom[y][x];
 			else if (myRoom[y][x] != CHAR_WALL && myRoom[y][x] != CHAR_EMPTY)
 				std::cout << GREEN_TEXT << myRoom[y][x];
 			else
