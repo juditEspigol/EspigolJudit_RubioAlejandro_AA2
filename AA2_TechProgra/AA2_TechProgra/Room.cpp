@@ -23,9 +23,9 @@ Room::Room(TypeOfRoom typeRoom, int width, int heigth)
 		m_nextDoor = -1;
 	}
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		RewardObject pot(width, m_height);
+		RewardObject pot(width, heigth);
 		m_pots.push_back(pot);
 	}
 }
@@ -52,7 +52,7 @@ int Room::GetPrevDoor()const
 }
 
 // METHODS
-char** Room::CreateRoom()
+char** Room::CreateRoom(const int& width, const int& height)
 {
 	// Create the 2D dynamic array
 	char** myRoom = new char* [m_height];
@@ -77,6 +77,16 @@ char** Room::CreateRoom()
 			{
 				myRoom[y][x] = CHAR_EMPTY;
 			}
+			for (int i = 0; i < m_pots.size(); i++)
+			{
+				////Mirar ESTOOOOOOOOOOOOOOOO
+				//while (myRoom[m_pots[i].GetPosY()][m_pots[i].GetPosX()] != CHAR_EMPTY)
+				//{
+				//	m_pots[i].ResetPos(width, height);
+				//}
+				if (y == m_pots[i].GetPosY() && x == m_pots[i].GetPosX())
+					myRoom[y][x] = CHAR_POT;
+			}
 		}
 	}
 
@@ -94,6 +104,8 @@ void Room::PrintRoom(char** myRoom)const
 			std::cout << " ";
 			if (myRoom[y][x] == CHAR_DOOR)
 				std::cout << YELLOW_TEXT << myRoom[y][x];
+			else if (myRoom[y][x] == CHAR_POT)
+				std::cout << RED_TEXT << myRoom[y][x];
 			else if (myRoom[y][x] != CHAR_WALL && myRoom[y][x] != CHAR_EMPTY)
 				std::cout << GREEN_TEXT << myRoom[y][x];
 			else

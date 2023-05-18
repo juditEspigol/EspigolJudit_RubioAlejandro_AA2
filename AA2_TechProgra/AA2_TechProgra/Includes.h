@@ -21,6 +21,7 @@ const std::string RED_TEXT = "\x1b[31m";
 const char CHAR_DOOR = 'P';
 const char CHAR_WALL = 'X';
 const char CHAR_EMPTY = ' ';
+const char CHAR_POT = 'O';
 
 // PLAYER CHARS
 const char PLAYER_UP = '^'; 

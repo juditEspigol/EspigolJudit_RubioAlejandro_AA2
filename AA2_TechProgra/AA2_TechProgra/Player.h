@@ -42,6 +42,8 @@ public:
 
 	void MovementPlayer(char** myRoom, const int& width, const int& height);
 
+	void Attack(char** myRoom, const Movement& move);
+
 	void PosPlayerPrevRoom(char** myRoom, const int& width, const int& height);
 	void PosPlayerNextRoom(char** myRoom, const int& width, const int& height);
 

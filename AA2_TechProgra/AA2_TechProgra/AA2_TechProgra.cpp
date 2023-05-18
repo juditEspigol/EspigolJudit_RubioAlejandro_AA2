@@ -2,6 +2,8 @@
 
 int main()
 {
+    srand(time(NULL));
+
     // CONFIGURATION
     const int FPS = 20;
     int frameCount = 0;
@@ -39,7 +41,7 @@ int main()
     }
     std::list<Room>::iterator actualRoomIt = rooms.begin();
 
-    myRoom = actualRoomIt->CreateRoom(); 
+    myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight()); 
 
     Player p1;
     p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
@@ -56,13 +58,13 @@ int main()
         if (p1.CollidesWithNextDoor(actualRoomIt->GetNextDoor()))
         {
             actualRoomIt++; 
-            myRoom = actualRoomIt->CreateRoom(); 
+            myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
             p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
         }
         else if (p1.CollidesWithPrevDoor(actualRoomIt->GetPrevDoor(), actualRoomIt->GetHeight()))
         {
             actualRoomIt--;
-            myRoom = actualRoomIt->CreateRoom();
+            myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
             p1.PosPlayerPrevRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
         }
 

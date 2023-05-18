@@ -16,4 +16,10 @@ public:
 	RewardObject(const int& width,const int& height);
 
 	void SetPosition(char** room);
+
+	int GetPosX()const;
+	
+	int GetPosY()const;
+
+	void ResetPos(const int& width, const int& height);
 };

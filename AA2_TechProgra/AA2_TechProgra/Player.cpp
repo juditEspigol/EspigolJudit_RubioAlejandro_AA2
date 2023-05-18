@@ -36,19 +36,19 @@ bool Player::CheckNextPos(char** myRoom)
 	 switch (m_move)
 	 {
 	 case Movement::UP:
-		 if (myRoom[m_posY - 1][m_posX] == CHAR_WALL)
+		 if (myRoom[m_posY - 1][m_posX] == CHAR_WALL || myRoom[m_posY - 1][m_posX] == CHAR_POT)
 			 canMove = false;
 		 break;
 	 case Movement::LEFT:
-		 if (myRoom[m_posY][m_posX - 1] == CHAR_WALL)
+		 if (myRoom[m_posY][m_posX - 1] == CHAR_WALL || myRoom[m_posY][m_posX - 1] == CHAR_POT)
 			 canMove = false;
 		 break;
 	 case Movement::RIGHT:
-		 if (myRoom[m_posY][m_posX + 1] == CHAR_WALL)
+		 if (myRoom[m_posY][m_posX + 1] == CHAR_WALL || myRoom[m_posY][m_posX + 1] == CHAR_POT)
 			 canMove = false;
 		 break;
 	 case Movement::DOWN:
-		 if (myRoom[m_posY + 1][m_posX] == CHAR_WALL)
+		 if (myRoom[m_posY + 1][m_posX] == CHAR_WALL || myRoom[m_posY + 1][m_posX] == CHAR_POT)
 			 canMove = false;
 		 break;
 	 default:
@@ -137,6 +137,10 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 			m_posY++;
 		}
 	}
+	if (GetAsyncKeyState(VK_SPACE))
+	{
+		//Attack(m_move);
+	}
 
 	SetPosition(myRoom);
 }
@@ -169,4 +173,27 @@ bool Player::CollidesWithNextDoor(const int& nextDoorX)
 	if (m_posX == nextDoorX && m_posY == 0)
 		return true; 
 	return false; 
+}
+
+void Player::Attack(char** myRoom,const Movement& move)
+{
+	switch (move)
+	{
+	case Movement::UP:
+		if(myRoom[m_posY-1][m_posX] == CHAR_POT)
+			
+
+		break;
+	case Movement::LEFT:
+		m_sprite = PLAYER_LEFT;
+		break;
+	case Movement::RIGHT:
+		m_sprite = PLAYER_RIGHT;
+		break;
+	case Movement::DOWN:
+		m_sprite = PLAYER_DOWN;
+		break;
+	default:
+		break;
+	}
 }

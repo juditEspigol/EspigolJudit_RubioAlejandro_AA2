@@ -38,8 +38,9 @@ public:
 	int GetNextDoor()const;
 
 	// METHODS 
-	char** CreateRoom();
+	char** CreateRoom(const int& width, const int& height);
 	void PrintRoom(char** myRoom) const;
+
 };
 
 void deleteDynamicArray(char** myRoom, std::list<Room>::iterator it);
