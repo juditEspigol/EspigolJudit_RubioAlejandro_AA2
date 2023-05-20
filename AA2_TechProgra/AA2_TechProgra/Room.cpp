@@ -26,7 +26,22 @@ Room::Room(TypeOfRoom typeRoom, int width, int heigth)
 	for (int i = 0; i < 4; i++)
 	{
 		RewardObject pot(width, heigth);
-		m_pots.push_back(pot);
+		if (m_pots.size() == 0)
+		{
+			m_pots.push_back(pot);
+		}
+		else
+		{
+			for (int j = 0; j < m_pots.size(); j++)
+			{
+				if (m_pots[j].GetPosX() == pot.GetPosX() && m_pots[j].GetPosY() == pot.GetPosY())
+				{
+					i--;
+					break; 
+				}
+			}
+			m_pots.push_back(pot);
+		}
 	}
 }
 

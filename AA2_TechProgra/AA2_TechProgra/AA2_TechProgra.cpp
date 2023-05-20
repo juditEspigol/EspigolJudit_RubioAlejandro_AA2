@@ -1,18 +1,31 @@
 #include "Includes.h"
 
+enum class InputKey
+{
+    K_ESC,
+    K_LEFT,
+    K_RIGHT,
+    K_UP,
+    K_DOWN,
+    K_SPACE,
+    COUNT,
+    INVALID
+};
+
 int main()
 {
-    srand(time(NULL));
-
     // CONFIGURATION
     const int FPS = 20;
     int frameCount = 0;
 
+    // INITIALIZATION
+    srand(time(NULL));
 
-    // GAME
     bool isPlaying = true;
 
-    char** myRoom; 
+    bool keyboard[static_cast<int>(InputKey::COUNT)] = {};
+
+    char** myRoom;
 
     std::ifstream config("config.txt");
 
@@ -20,7 +33,7 @@ int main()
     std::list<Room> rooms;
     if (config.is_open())
     {
-        int i = 0; 
+        int i = 0;
         int width, height;
         char character;
         while (config >> width >> character >> height >> character)
@@ -30,34 +43,45 @@ int main()
                 Room newRoom(static_cast<TypeOfRoom>(i), width, height);
                 rooms.push_back(newRoom);
             }
-            i++; 
+            i++;
         }
         config.close();
     }
     else
     {
         std::cout << " --- An error has occurred trying to open the file ---";
-        isPlaying = false; 
+        isPlaying = false;
     }
     std::list<Room>::iterator actualRoomIt = rooms.begin();
 
-    myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight()); 
+    myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
 
     Player p1;
     p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
 
-
     // GAME LOOP
-    while (isPlaying)
+    while(isPlaying)
     {
+        // INPUT
+        keyboard[static_cast<int>(InputKey::K_ESC)] = GetAsyncKeyState(VK_ESCAPE);
+        keyboard[static_cast<int>(InputKey::K_LEFT)] = GetAsyncKeyState(VK_LEFT);
+        keyboard[static_cast<int>(InputKey::K_RIGHT)] = GetAsyncKeyState(VK_RIGHT);
+        keyboard[static_cast<int>(InputKey::K_UP)] = GetAsyncKeyState(VK_UP);
+        keyboard[static_cast<int>(InputKey::K_DOWN)] = GetAsyncKeyState(VK_DOWN);
+        keyboard[static_cast<int>(InputKey::K_SPACE)] = GetAsyncKeyState(VK_SPACE);
+
+        // UPDATE
+        // RENDER
+        // FRAME CONTROL
+
 
         // MOVEMENT PLAYER 
         p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
 
-        
+
         if (p1.CollidesWithNextDoor(actualRoomIt->GetNextDoor()))
         {
-            actualRoomIt++; 
+            actualRoomIt++;
             myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
             p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
         }
@@ -71,12 +95,13 @@ int main()
 
         // PRINT ROOM
         actualRoomIt->PrintRoom(myRoom);
-        std::cout <<  " Rupias: " << p1.GetScore();
+        std::cout << " Rupias: " << p1.GetScore();
 
         Sleep(1000 / FPS);
         system("cls");
         isPlaying = exitGame();
     }
+
 
     deleteDynamicArray(myRoom, actualRoomIt);
 }

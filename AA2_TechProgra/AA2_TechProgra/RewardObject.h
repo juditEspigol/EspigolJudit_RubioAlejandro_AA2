@@ -17,9 +17,9 @@ public:
 
 	void SetPosition(char** room);
 
-	int GetPosX()const;
+	int GetPosX() const;
 	
-	int GetPosY()const;
+	int GetPosY() const;
 
 	void ResetPos(const int& width, const int& height);
 };

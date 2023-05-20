@@ -18,8 +18,6 @@ private:
 	int m_posX; 
 	int m_posY;
 
-	
-
 	Movement m_move; 
 	char m_sprite;
 
