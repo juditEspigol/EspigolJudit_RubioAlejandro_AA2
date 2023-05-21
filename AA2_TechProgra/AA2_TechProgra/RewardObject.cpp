@@ -4,7 +4,6 @@
 
 RewardObject::RewardObject(const int& width, const int& height)
 {
-	isAlive = true;
 	m_sprite = CHAR_POT;
 	m_posX = rand() % (width - 2) + 1; // rand() % (max - min + 1) + min;
 	m_posY = rand() % (height - 2) + 1;

@@ -94,12 +94,7 @@ char** Room::CreateRoom(const int& width, const int& height)
 			}
 			for (int i = 0; i < m_pots.size(); i++)
 			{
-				////Mirar ESTOOOOOOOOOOOOOOOO
-				//while (myRoom[m_pots[i].GetPosY()][m_pots[i].GetPosX()] != CHAR_EMPTY)
-				//{
-				//	m_pots[i].ResetPos(width, height);
-				//}
-				if (y == m_pots[i].GetPosY() && x == m_pots[i].GetPosX())
+				if (y == m_pots[i].GetPosY() && x == m_pots[i].GetPosX() && myRoom[y][x] != PLAYER_UP)
 					myRoom[y][x] = CHAR_POT;
 			}
 		}
@@ -155,13 +150,13 @@ void printTypeOfRoom(TypeOfRoom typeRoom)
 	switch (typeRoom)
 	{
 	case TypeOfRoom::CLASSROOM:
-		std::cout << " -- CLASSROOM -- " << std::endl;
+		std::cout << std::endl  << " -- CLASSROOM -- " << std::endl;
 		break;
 	case TypeOfRoom::HALL:
-		std::cout << " -- HALL -- " << std::endl;
+		std::cout << std::endl  << " -- HALL -- " << std::endl;
 		break;
 	case TypeOfRoom::CAFE:
-		std::cout << " -- CAFE -- " << std::endl;
+		std::cout << std::endl  << " -- CAFE -- " << std::endl;
 		break;
 	case TypeOfRoom::COUNT:
 		std::cout << "  " << std::endl;

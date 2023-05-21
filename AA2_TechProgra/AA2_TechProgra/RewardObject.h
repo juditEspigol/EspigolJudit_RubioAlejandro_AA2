@@ -6,10 +6,7 @@ class RewardObject
 	int m_posX;
 	int m_posY;
 
-	bool isAlive;
-
 	char m_sprite;
-	//Gem m_gem;
 
 public:
 
