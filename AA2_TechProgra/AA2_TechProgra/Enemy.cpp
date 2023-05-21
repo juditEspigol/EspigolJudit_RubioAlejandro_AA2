@@ -2,7 +2,7 @@
 
 Enemy::Enemy(const int& width, const int& height)
 {
-	m_sprite = CHAR_POT;
+	m_sprite = CHAR_ENEMY;
 	m_posX = rand() % (width - 2) + 1; // rand() % (max - min + 1) + min;
 	m_posY = rand() % (height - 2) + 1;
 }
