@@ -1,23 +1,23 @@
 #include "Enemy.h"
 
-Enemy::Enemy(const int& width, const int& height)
+WildPig::WildPig(const int& width, const int& height)
 {
 	m_sprite = CHAR_ENEMY;
 	m_posX = rand() % (width - 2) + 1; // rand() % (max - min + 1) + min;
 	m_posY = rand() % (height - 2) + 1;
 }
 
-void Enemy::SetPosition(char** room)
+void WildPig::SetPosition(char** room)
 {
 
 }
 
-int Enemy::GetPosX() const
+int WildPig::GetPosX() const
 {
 	return m_posX;
 }
 
-int Enemy::GetPosY() const
+int WildPig::GetPosY() const
 {
 	return m_posY;
 }

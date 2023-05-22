@@ -1,11 +1,11 @@
 #include "Room.h"
 
 // CONSTRUCTOR
-Room::Room(TypeOfRoom typeRoom, int width, int heigth)
+Room::Room(TypeOfRoom typeRoom, int width, int height)
 {
 	m_typeRoom = typeRoom;
 	m_width = width;
-	m_height = heigth;
+	m_height = height;
 
 	if (m_typeRoom == TypeOfRoom::CLASSROOM)
 	{
@@ -23,26 +23,7 @@ Room::Room(TypeOfRoom typeRoom, int width, int heigth)
 		m_nextDoor = -1;
 	}
 
-	for (int i = 0; i < 4; i++)
-	{
-		RewardObject pot(width, heigth);
-		if (m_pots.size() == 0)
-		{
-			m_pots.push_back(pot);
-		}
-		else
-		{
-			for (int j = 0; j < m_pots.size(); j++)
-			{
-				if (m_pots[j].GetPosX() == pot.GetPosX() && m_pots[j].GetPosY() == pot.GetPosY())
-				{
-					i--;
-					break; 
-				}
-			}
-			m_pots.push_back(pot);
-		}
-	}
+	CreatePots(width, height);
 }
 
 // GETTERS
@@ -163,5 +144,32 @@ void printTypeOfRoom(TypeOfRoom typeRoom)
 		break;
 	default:
 		break;
+	}
+}
+
+void Room::CreatePots(const int& width, const int& height) 
+{
+	for (int i = 0; i < 4; i++)
+	{
+		RewardObject pot(width, height);
+		if (m_pots.size() == 0)
+		{
+			m_pots.push_back(pot);
+		}
+		else
+		{
+			for (int j = 0; j < m_pots.size(); j++)
+			{
+				// Avoids to print a pot above player or other pot 
+				if (pot.GetPosX() == width / 2 && pot.GetPosY() == height - 2
+					|| pot.GetPosX() == width / 2 && pot.GetPosY() == 1
+					|| m_pots[j].GetPosX() == pot.GetPosX() && m_pots[j].GetPosY() == pot.GetPosY())
+				{
+					i--;
+					break;
+				}
+			}
+			m_pots.push_back(pot);
+		}
 	}
 }

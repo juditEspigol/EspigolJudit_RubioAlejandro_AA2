@@ -97,7 +97,6 @@ int main()
         actualRoomIt->PrintRoom(myRoom);
         std::cout << std::endl << " Health --> " << p1.GetHealth();
         std::cout << std::endl << " Rupias --> " << p1.GetScore();
-
         
         if (GetAsyncKeyState(VK_CONTROL))
             p1.SubstractHealth(1);

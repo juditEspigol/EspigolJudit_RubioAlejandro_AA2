@@ -1,7 +1,7 @@
 #pragma once
 #include "Includes.h"
 
-class Enemy
+class WildPig
 {
 	int m_posX;
 	int m_posY;
@@ -10,11 +10,16 @@ class Enemy
 
 public: 
 
-	Enemy(const int& width, const int& height);
+	WildPig(const int& width, const int& height);
 
 	void SetPosition(char** room);
 
 	int GetPosX() const;
 
 	int GetPosY() const;
+};
+
+class Ganon
+{
+
 };
