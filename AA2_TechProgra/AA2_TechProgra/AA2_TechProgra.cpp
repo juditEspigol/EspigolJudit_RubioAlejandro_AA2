@@ -1,29 +1,18 @@
 #include "Includes.h"
 
-enum class InputKey
-{
-    K_ESC,
-    K_LEFT,
-    K_RIGHT,
-    K_UP,
-    K_DOWN,
-    K_SPACE,
-    COUNT,
-    INVALID
-};
-
 int main()
 {
     // CONFIGURATION
-    const int FPS = 20;
+    const int FPS = 30;
     int frameCount = 0;
 
     // INITIALIZATION
     srand(time(NULL));
 
-    bool isPlaying = true;
+    Scenes actualScene = Scenes::INIT;
 
     bool keyboard[static_cast<int>(InputKey::COUNT)] = {};
+    bool isPlaying = true;
 
     char** myRoom;
 
@@ -59,13 +48,14 @@ int main()
     Player p1;
     p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
 
-    actualRoomIt->CreatePots(myRoom, 4); 
+    actualRoomIt->CreatePots(myRoom, 4);
     actualRoomIt->CreateEnemys(myRoom, 4);
+    
+    bool selectPlay = true;
 
-    // GAME LOOP
-    while(isPlaying)
+    while (actualScene != Scenes::EXIT)
     {
-        // INPUT
+        // INPUT 
         keyboard[static_cast<int>(InputKey::K_ESC)] = GetAsyncKeyState(VK_ESCAPE);
         keyboard[static_cast<int>(InputKey::K_LEFT)] = GetAsyncKeyState(VK_LEFT);
         keyboard[static_cast<int>(InputKey::K_RIGHT)] = GetAsyncKeyState(VK_RIGHT);
@@ -74,46 +64,85 @@ int main()
         keyboard[static_cast<int>(InputKey::K_SPACE)] = GetAsyncKeyState(VK_SPACE);
 
         // UPDATE
-        // RENDER
-        // FRAME CONTROL
-
-
-        // MOVEMENT PLAYER 
-        p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-
-
-        if (p1.CollidesWithNextDoor(actualRoomIt->GetNextDoor()))
+        switch (actualScene)
         {
-            actualRoomIt++;
-            myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-            p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-            actualRoomIt->CreatePots(myRoom, 4);
-            actualRoomIt->CreateEnemys(myRoom, 4);
+        case Scenes::INIT:
+
+            // UPDATE / TICK
+            if (frameCount == 30)
+                actualScene = Scenes::MENU;
+            frameCount++;
+
+            // RENDER / DRAW
+            printInit();
+
+            break;
+        case Scenes::MENU:
+
+            // UPDATE / TICK
+            if (keyboard[static_cast<int>(InputKey::K_DOWN)]) // K_DOWN == TRUE
+                selectPlay = false;
+            else if (keyboard[static_cast<int>(InputKey::K_UP)])
+                selectPlay = true;
+
+            if (selectPlay && keyboard[static_cast<int>(InputKey::K_SPACE)])
+                actualScene = Scenes::GAME;
+            else if (!selectPlay && keyboard[static_cast<int>(InputKey::K_SPACE)])
+                actualScene = Scenes::EXIT;
+
+            // RENDER / DRAW
+            printMenu();
+            if (selectPlay)
+                printSelectPlay();
+            else
+                printSelectExit();
+
+            break;
+        case Scenes::GAME:
+
+                // MOVEMENT PLAYER 
+                p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+
+
+                if (p1.CollidesWithNextDoor(actualRoomIt->GetNextDoor()))
+                {
+                    actualRoomIt++;
+                    myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+                    p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+                    actualRoomIt->CreatePots(myRoom, 4);
+                    actualRoomIt->CreateEnemys(myRoom, 4);
+                }
+                else if (p1.CollidesWithPrevDoor(actualRoomIt->GetPrevDoor(), actualRoomIt->GetHeight()))
+                {
+                    actualRoomIt--;
+                    myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+                    p1.PosPlayerPrevRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+                    actualRoomIt->CreatePots(myRoom, 4);
+                    actualRoomIt->CreateEnemys(myRoom, 4);
+                }
+
+                // PRINT ROOM
+                actualRoomIt->PrintRoom(myRoom);
+
+                std::cout << std::endl << " Health --> " << p1.GetHealth();
+                std::cout << std::endl << " Rupias --> " << p1.GetScore();
+
+                if (GetAsyncKeyState(VK_CONTROL))
+                    p1.SubstractHealth(1);
+
+            break;
+        case Scenes::GAMEOVER:
+
+            break;
+        default:
+            break;
         }
-        else if (p1.CollidesWithPrevDoor(actualRoomIt->GetPrevDoor(), actualRoomIt->GetHeight()))
-        {
-            actualRoomIt--;
-            myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-            p1.PosPlayerPrevRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-            actualRoomIt->CreatePots(myRoom, 4);
-            actualRoomIt->CreateEnemys(myRoom, 4);
-        }
 
-        // PRINT ROOM
-        actualRoomIt->PrintRoom(myRoom);
-
-        std::cout << std::endl << " Health --> " << p1.GetHealth();
-        std::cout << std::endl << " Rupias --> " << p1.GetScore();
-        
-        if (GetAsyncKeyState(VK_CONTROL))
-            p1.SubstractHealth(1);
-        
-
+        // FRAME CONTROL 
         Sleep(1000 / FPS);
         system("cls");
-        isPlaying = exitGame();
+        // isPlaying = exitGame();
     }
-
 
     deleteDynamicArray(myRoom, actualRoomIt);
 }
