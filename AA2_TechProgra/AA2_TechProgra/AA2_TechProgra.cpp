@@ -59,6 +59,9 @@ int main()
     Player p1;
     p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
 
+    actualRoomIt->CreatePots(myRoom, 4); 
+    actualRoomIt->CreateEnemys(myRoom, 4);
+
     // GAME LOOP
     while(isPlaying)
     {
@@ -84,17 +87,21 @@ int main()
             actualRoomIt++;
             myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
             p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+            actualRoomIt->CreatePots(myRoom, 4);
+            actualRoomIt->CreateEnemys(myRoom, 4);
         }
         else if (p1.CollidesWithPrevDoor(actualRoomIt->GetPrevDoor(), actualRoomIt->GetHeight()))
         {
             actualRoomIt--;
             myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
             p1.PosPlayerPrevRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+            actualRoomIt->CreatePots(myRoom, 4);
+            actualRoomIt->CreateEnemys(myRoom, 4);
         }
-
 
         // PRINT ROOM
         actualRoomIt->PrintRoom(myRoom);
+
         std::cout << std::endl << " Health --> " << p1.GetHealth();
         std::cout << std::endl << " Rupias --> " << p1.GetScore();
         

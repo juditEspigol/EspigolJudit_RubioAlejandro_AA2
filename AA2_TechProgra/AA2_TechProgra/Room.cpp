@@ -22,8 +22,6 @@ Room::Room(TypeOfRoom typeRoom, int width, int height)
 		m_prevDoor = width / 2;
 		m_nextDoor = -1;
 	}
-
-	CreatePots(width, height);
 }
 
 // GETTERS
@@ -73,11 +71,6 @@ char** Room::CreateRoom(const int& width, const int& height)
 			{
 				myRoom[y][x] = CHAR_EMPTY;
 			}
-			for (int i = 0; i < m_pots.size(); i++)
-			{
-				if (y == m_pots[i].GetPosY() && x == m_pots[i].GetPosX() && myRoom[y][x] != PLAYER_UP)
-					myRoom[y][x] = CHAR_POT;
-			}
 		}
 	}
 
@@ -96,6 +89,8 @@ void Room::PrintRoom(char** myRoom)const
 			if (myRoom[y][x] == CHAR_DOOR)
 				std::cout << YELLOW_TEXT << myRoom[y][x];
 			else if (myRoom[y][x] == CHAR_POT)
+				std::cout << RED_TEXT << myRoom[y][x];
+			else if (myRoom[y][x] == CHAR_WILDPIG)
 				std::cout << RED_TEXT << myRoom[y][x];
 			else if (myRoom[y][x] == CHAR_GEM_GREEN)
 				std::cout << GREEN_TEXT << myRoom[y][x];
@@ -147,29 +142,31 @@ void printTypeOfRoom(TypeOfRoom typeRoom)
 	}
 }
 
-void Room::CreatePots(const int& width, const int& height) 
+void Room::CreatePots(char** myRoom, const int& numPots) 
 {
-	for (int i = 0; i < 4; i++)
+	while (m_pots.size() < numPots)
 	{
-		RewardObject pot(width, height);
-		if (m_pots.size() == 0)
+		RewardObject pot(m_width, m_height);
+
+		if (myRoom[pot.GetPosY()][pot.GetPosX()] == CHAR_EMPTY)
 		{
-			m_pots.push_back(pot);
+			m_pots.push_back(pot); 
+			myRoom[pot.GetPosY()][pot.GetPosX()] = CHAR_POT; 
 		}
-		else
+	}
+}
+
+
+void Room::CreateEnemys(char** myRoom, const int& numPigs)
+{
+	while (m_wildPigs.size() < numPigs)
+	{
+		WildPig enemy(m_width, m_height);
+
+		if (myRoom[enemy.GetPosY()][enemy.GetPosX()] == CHAR_EMPTY)
 		{
-			for (int j = 0; j < m_pots.size(); j++)
-			{
-				// Avoids to print a pot above player or other pot 
-				if (pot.GetPosX() == width / 2 && pot.GetPosY() == height - 2
-					|| pot.GetPosX() == width / 2 && pot.GetPosY() == 1
-					|| m_pots[j].GetPosX() == pot.GetPosX() && m_pots[j].GetPosY() == pot.GetPosY())
-				{
-					i--;
-					break;
-				}
-			}
-			m_pots.push_back(pot);
+			m_wildPigs.push_back(enemy);
+			myRoom[enemy.GetPosY()][enemy.GetPosX()] = CHAR_WILDPIG;
 		}
 	}
 }

@@ -1,12 +1,13 @@
 #pragma once
-#include "Includes.h"
+#include <iostream>
 
 class WildPig
 {
 	int m_posX;
 	int m_posY;
 
-	char m_sprite;
+	// char m_sprite;
+	bool m_verticalDirection; 
 
 public: 
 

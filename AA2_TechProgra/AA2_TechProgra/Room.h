@@ -25,12 +25,12 @@ private:
 	int m_width;
 	int m_height;
 
-	
-	//std::vector<WildPig> m_wildPigs;
+	std::vector<RewardObject> m_pots;
+	std::vector<WildPig> m_wildPigs;
 	//Ganon ganon;
 
 public:	
-	std::vector<RewardObject> m_pots;
+	
 	// CONSTRUCTOR 
 	Room(TypeOfRoom typeofRoom, int width, int heigth);
 
@@ -44,7 +44,8 @@ public:
 	// METHODS 
 	char** CreateRoom(const int& width, const int& height);
 	void PrintRoom(char** myRoom) const;
-	void CreatePots(const int& width, const int& height);
+	void CreatePots(char** myRoom, const int& numPots);
+	void CreateEnemys(char** myRoom, const int& numPigs);
 
 };
 
