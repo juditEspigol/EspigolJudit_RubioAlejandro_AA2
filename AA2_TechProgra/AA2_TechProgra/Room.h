@@ -44,9 +44,15 @@ public:
 	// METHODS 
 	char** CreateRoom(const int& width, const int& height);
 	void PrintRoom(char** myRoom) const;
-	void CreatePots(char** myRoom, const int& numPots);
-	void CreateEnemys(char** myRoom, const int& numPigs);
 
+	// -------------------------  Pots  --------------------------------
+	void CreatePots(char** myRoom, const int& numPots);
+
+	// ------------------------  Enemies ----------------------------
+	void CreateEnemys(char** myRoom, const int& numPigs);
+ 	void MoveEnemys(char** myRoom); // S'haura d'arreglar
+	bool EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction);
+	
 };
 
 void deleteDynamicArray(char** myRoom, std::list<Room>::iterator it);

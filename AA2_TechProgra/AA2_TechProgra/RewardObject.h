@@ -12,7 +12,7 @@ public:
 
 	RewardObject(const int& width,const int& height);
 
-	void SetPosition(char** room);
+	void SetPosition(char** myRoom);
 
 	int GetPosX() const;
 	

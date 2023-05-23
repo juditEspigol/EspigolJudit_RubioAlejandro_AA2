@@ -2,17 +2,16 @@
 
 int main()
 {
+    srand(time(NULL));
+
     // CONFIGURATION
-    const int FPS = 30;
+    const int FPS = 20;
     int frameCount = 0;
 
     // INITIALIZATION
-    srand(time(NULL));
-
-    Scenes actualScene = Scenes::INIT;
+    Scenes actualScene = Scenes::GAME;
 
     bool keyboard[static_cast<int>(InputKey::COUNT)] = {};
-    bool isPlaying = true;
 
     char** myRoom;
 
@@ -39,7 +38,6 @@ int main()
     else
     {
         std::cout << " --- An error has occurred trying to open the file ---";
-        isPlaying = false;
     }
     std::list<Room>::iterator actualRoomIt = rooms.begin();
 
@@ -47,7 +45,6 @@ int main()
 
     Player p1;
     p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-
     actualRoomIt->CreatePots(myRoom, 4);
     actualRoomIt->CreateEnemys(myRoom, 4);
     
@@ -69,7 +66,7 @@ int main()
         case Scenes::INIT:
 
             // UPDATE / TICK
-            if (frameCount == 30)
+            if (frameCount == 20)
                 actualScene = Scenes::MENU;
             frameCount++;
 
@@ -120,6 +117,7 @@ int main()
                     actualRoomIt->CreatePots(myRoom, 4);
                     actualRoomIt->CreateEnemys(myRoom, 4);
                 }
+                actualRoomIt->MoveEnemys(myRoom); 
 
                 // PRINT ROOM
                 actualRoomIt->PrintRoom(myRoom);
@@ -130,18 +128,22 @@ int main()
                 if (GetAsyncKeyState(VK_CONTROL))
                     p1.SubstractHealth(1);
 
+                // isPlaying = exitGame();
+
             break;
         case Scenes::GAMEOVER:
 
             break;
         default:
+
+            actualScene = Scenes::EXIT; 
+
             break;
         }
 
         // FRAME CONTROL 
         Sleep(1000 / FPS);
         system("cls");
-        // isPlaying = exitGame();
     }
 
     deleteDynamicArray(myRoom, actualRoomIt);

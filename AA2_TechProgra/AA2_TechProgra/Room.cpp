@@ -55,7 +55,7 @@ char** Room::CreateRoom(const int& width, const int& height)
 		myRoom[y] = new char[m_width];
 		for (int x = 0; x < m_width; ++x)
 		{
-		    if (y == m_height - 1 && x == m_prevDoor)
+			if (y == m_height - 1 && x == m_prevDoor)
 			{
 				myRoom[y][x] = CHAR_DOOR;
 			}
@@ -144,6 +144,7 @@ void printTypeOfRoom(TypeOfRoom typeRoom)
 
 void Room::CreatePots(char** myRoom, const int& numPots) 
 {
+	m_pots.clear();
 	while (m_pots.size() < numPots)
 	{
 		RewardObject pot(m_width, m_height);
@@ -159,6 +160,7 @@ void Room::CreatePots(char** myRoom, const int& numPots)
 
 void Room::CreateEnemys(char** myRoom, const int& numPigs)
 {
+	m_wildPigs.clear(); 
 	while (m_wildPigs.size() < numPigs)
 	{
 		WildPig enemy(m_width, m_height);
@@ -169,4 +171,91 @@ void Room::CreateEnemys(char** myRoom, const int& numPigs)
 			myRoom[enemy.GetPosY()][enemy.GetPosX()] = CHAR_WILDPIG;
 		}
 	}
+}
+
+void Room::MoveEnemys(char** myRoom)
+{
+	for (int i = 0; i < m_wildPigs.size(); ++i)
+	{
+		switch (m_wildPigs[i].GetDirection())
+		{
+		case DirectionEnemys::UP:
+			if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
+			{
+				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+				m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX(), m_wildPigs[i].GetPosY() - 1);
+				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
+			}
+			else
+				m_wildPigs[i].SetDirection(DirectionEnemys::DOWN);
+			break;
+		case DirectionEnemys::DOWN:
+			if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
+			{
+				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+				m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX(), m_wildPigs[i].GetPosY() + 1);
+				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
+			}
+			else
+				m_wildPigs[i].SetDirection(DirectionEnemys::UP);
+			break;
+		case DirectionEnemys::LEFT:
+			if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
+			{
+				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+				m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX() - 1, m_wildPigs[i].GetPosY());
+				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
+			}
+			else
+				m_wildPigs[i].SetDirection(DirectionEnemys::RIGHT);
+			break;
+		case DirectionEnemys::RIGHT:
+			if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
+			{
+				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+				m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX() + 1, m_wildPigs[i].GetPosY());
+				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
+			}
+			else
+				m_wildPigs[i].SetDirection(DirectionEnemys::LEFT);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+bool Room::EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction)
+{
+	bool movementCheck;
+	switch (direction)
+	{
+	case DirectionEnemys::UP:
+			if (myRoom[wildpig.GetPosY() - 1][wildpig.GetPosX()] == CHAR_EMPTY)
+			movementCheck = true;
+		else
+			movementCheck = false;
+		break;
+	case DirectionEnemys::DOWN:
+		if (myRoom[wildpig.GetPosY() + 1][wildpig.GetPosX()] == CHAR_EMPTY)
+			movementCheck = true;
+		else
+			movementCheck = false;
+		break;
+	case DirectionEnemys::LEFT:
+		if (myRoom[wildpig.GetPosY()][wildpig.GetPosX() - 1] == CHAR_EMPTY)
+			movementCheck = true;
+		else
+			movementCheck = false;
+		break;
+	case DirectionEnemys::RIGHT:
+		if (myRoom[wildpig.GetPosY()][wildpig.GetPosX() + 1] == CHAR_EMPTY)
+			movementCheck = true;
+		else
+			movementCheck = false;
+		break;
+	default:
+		break;
+	}	
+	return movementCheck;
 }

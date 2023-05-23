@@ -264,3 +264,4 @@ void Player::SubstractHealth(const int& value)
 {
 	m_health -= value;
 }
+

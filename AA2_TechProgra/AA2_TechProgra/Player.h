@@ -59,6 +59,7 @@ public:
 	void AddScore(char** myRoom, const Movement& move);
 	void SubstractHealth(const int& value);
 	
+	
 
 	
 

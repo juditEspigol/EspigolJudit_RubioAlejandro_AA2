@@ -9,9 +9,8 @@ RewardObject::RewardObject(const int& width, const int& height)
 	m_posY = rand() % (height - 2) + 1;
 }
 
-void RewardObject::SetPosition(char** room)
+void RewardObject::SetPosition(char** myRoom)
 {
-
 }
 
 int RewardObject::GetPosX() const
