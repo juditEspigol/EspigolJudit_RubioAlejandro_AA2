@@ -6,6 +6,7 @@ WildPig::WildPig(const int& width, const int& height)
 	m_posX = rand() % (width - 2) + 1; // rand() % (max - min + 1) + min;
 	m_posY = rand() % (height - 2) + 1;
 	m_direction = static_cast<DirectionEnemys>(rand() % 4);
+	m_isAlive = true;
 }
 
 void WildPig::SetPosition(const int& posX, const int& posY)
@@ -22,6 +23,11 @@ int WildPig::GetPosX() const
 int WildPig::GetPosY() const
 {
 	return m_posY;
+}
+
+void WildPig::SetAlive(const bool& alive)
+{
+	m_isAlive = alive;
 }
 
 //void Enemy::ResetPos(const int& width, const int& height)

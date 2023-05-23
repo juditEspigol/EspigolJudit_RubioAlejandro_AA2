@@ -13,6 +13,7 @@ class WildPig
 {
 	int m_posX;
 	int m_posY;
+	bool m_isAlive;
 
 	// char m_sprite;
 	DirectionEnemys m_direction; 
@@ -26,6 +27,8 @@ public:
 	int GetPosX() const;
 
 	int GetPosY() const;
+
+	void SetAlive(const bool& alive);
 
 	DirectionEnemys GetDirection() const; 
 

@@ -2,6 +2,7 @@
 #include "RewardObject.h"
 #include "Enemy.h"
 
+class Player;
 class RewardObject;
 enum class TypeOfRoom 
 {
@@ -50,7 +51,7 @@ public:
 
 	// ------------------------  Enemies ----------------------------
 	void CreateEnemys(char** myRoom, const int& numPigs);
- 	void MoveEnemys(char** myRoom); // S'haura d'arreglar
+ 	void MoveEnemys(char** myRoom, Player& player); // S'haura d'arreglar
 	bool EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction);
 	
 };

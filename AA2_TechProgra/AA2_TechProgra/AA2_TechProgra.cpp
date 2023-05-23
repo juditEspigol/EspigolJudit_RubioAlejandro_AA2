@@ -117,7 +117,7 @@ int main()
                     actualRoomIt->CreatePots(myRoom, 4);
                     actualRoomIt->CreateEnemys(myRoom, 4);
                 }
-                actualRoomIt->MoveEnemys(myRoom); 
+                actualRoomIt->MoveEnemys(myRoom, p1); 
 
                 // PRINT ROOM
                 actualRoomIt->PrintRoom(myRoom);
