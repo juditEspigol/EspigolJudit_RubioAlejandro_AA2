@@ -97,9 +97,10 @@ int main()
             break;
         case Scenes::GAME:
 
+                if (p1.GetHealth() == 0)
+                    actualScene = Scenes::GAMEOVER;
                 // MOVEMENT PLAYER 
                 p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-
 
                 if (p1.CollidesWithNextDoor(actualRoomIt->GetNextDoor()))
                 {
@@ -128,8 +129,6 @@ int main()
                 if (GetAsyncKeyState(VK_CONTROL))
                     p1.SubstractHealth(1);
 
-                // isPlaying = exitGame();
-
             break;
         case Scenes::GAMEOVER:
 
@@ -140,11 +139,12 @@ int main()
 
             break;
         }
+        if (keyboard[static_cast<int>(InputKey::K_ESC)])
+            actualScene = Scenes::EXIT;
 
         // FRAME CONTROL 
         Sleep(1000 / FPS);
         system("cls");
     }
-
     deleteDynamicArray(myRoom, actualRoomIt);
 }

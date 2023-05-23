@@ -1,6 +1,7 @@
 #pragma once
 #include "Includes.h"
 
+class Player;
 enum class Scenes
 {
     INIT,
@@ -22,8 +23,6 @@ enum class InputKey
     INVALID
 };
 
-bool exitGame();
-
 void printInit(); 
 
 void printMenu(); 
@@ -31,3 +30,5 @@ void printMenu();
 void printSelectExit(); 
 
 void printSelectPlay(); 
+
+Scenes Lose(Player& player);
