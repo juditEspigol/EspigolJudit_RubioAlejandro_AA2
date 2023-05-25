@@ -265,3 +265,8 @@ void Player::SubstractHealth(const int& value)
 	m_health -= value;
 }
 
+Movement Player::GetDirection()const
+{
+	return m_move;
+}
+

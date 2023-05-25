@@ -7,6 +7,7 @@ int main()
     // CONFIGURATION
     const int FPS = 20;
     int frameCount = 0;
+    int cont = 0;
 
     // INITIALIZATION
     Scenes actualScene = Scenes::GAME;
@@ -72,7 +73,6 @@ int main()
 
             // RENDER / DRAW
             printInit();
-
             break;
         case Scenes::MENU:
 
@@ -93,7 +93,6 @@ int main()
                 printSelectPlay();
             else
                 printSelectExit();
-
             break;
         case Scenes::GAME:
 
@@ -101,6 +100,9 @@ int main()
                     actualScene = Scenes::GAMEOVER;
                 // MOVEMENT PLAYER 
                 p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+
+                if (keyboard[static_cast<int>(InputKey::K_SPACE)])
+                    actualRoomIt->Attack(myRoom, p1);
 
                 if (p1.CollidesWithNextDoor(actualRoomIt->GetNextDoor()))
                 {
@@ -118,17 +120,14 @@ int main()
                     actualRoomIt->CreatePots(myRoom, 4);
                     actualRoomIt->CreateEnemys(myRoom, 4);
                 }
-                actualRoomIt->MoveEnemys(myRoom, p1); 
+                if(cont == timeEnemyMoves)
+                    actualRoomIt->MoveEnemys(myRoom, p1, cont); 
 
                 // PRINT ROOM
                 actualRoomIt->PrintRoom(myRoom);
 
                 std::cout << std::endl << " Health --> " << p1.GetHealth();
                 std::cout << std::endl << " Rupias --> " << p1.GetScore();
-
-                if (GetAsyncKeyState(VK_CONTROL))
-                    p1.SubstractHealth(1);
-
             break;
         case Scenes::GAMEOVER:
 
@@ -143,6 +142,7 @@ int main()
             actualScene = Scenes::EXIT;
 
         // FRAME CONTROL 
+        cont++;
         Sleep(1000 / FPS);
         system("cls");
     }

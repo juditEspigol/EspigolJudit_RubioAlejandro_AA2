@@ -173,98 +173,103 @@ void Room::CreateEnemys(char** myRoom, const int& numPigs)
 	}
 }
 
-void Room::MoveEnemys(char** myRoom, Player& player)
+void Room::MoveEnemys(char** myRoom, Player& player, int& cont)
 {
-	
 	for (int i = 0; i < m_wildPigs.size(); ++i)
 	{
-		switch (m_wildPigs[i].GetDirection())
-		{
-		case DirectionEnemys::UP:
-			if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
+			switch (m_wildPigs[i].GetDirection())
 			{
-				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
-				m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX(), m_wildPigs[i].GetPosY() - 1);
-				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
-			}
-			else
-			{
-				if (myRoom[m_wildPigs[i].GetPosY() - 1][m_wildPigs[i].GetPosX()] == PLAYER_UP)
+			case DirectionEnemys::UP:
+				if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
 				{
-					m_wildPigs[i].SetDirection(DirectionEnemys::DOWN);
-					m_wildPigs[i].SetAlive(false);
-					m_wildPigs.erase(m_wildPigs.begin() + i);
-					player.SubstractHealth(1);
-				}
-				else	
-					m_wildPigs[i].SetDirection(DirectionEnemys::DOWN);
-			}
-			break;
-		case DirectionEnemys::DOWN:
-			if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
-			{
-				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
-				m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX(), m_wildPigs[i].GetPosY() + 1);
-				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
-			}
-			else
-			{
-				if (myRoom[m_wildPigs[i].GetPosY() + 1][m_wildPigs[i].GetPosX()] == PLAYER_UP)
-				{
-					m_wildPigs[i].SetDirection(DirectionEnemys::UP);
-					m_wildPigs[i].SetAlive(false);
-					m_wildPigs.erase(m_wildPigs.begin() + i);
-					player.SubstractHealth(1);
+					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+					m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX(), m_wildPigs[i].GetPosY() - 1);
+					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
 				}
 				else
-					m_wildPigs[i].SetDirection(DirectionEnemys::UP);
-			}
-			break;
-		case DirectionEnemys::LEFT:
-			if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
-			{
-				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
-				m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX() - 1, m_wildPigs[i].GetPosY());
-				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
-			}
-			else
-			{
-				if (myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX() - 1] == PLAYER_UP)
 				{
-					m_wildPigs[i].SetDirection(DirectionEnemys::RIGHT);
-					m_wildPigs[i].SetAlive(false);
-					m_wildPigs.erase(m_wildPigs.begin() + i);
-					player.SubstractHealth(1);
+					if (myRoom[m_wildPigs[i].GetPosY() - 1][m_wildPigs[i].GetPosX()]
+						== myRoom[player.GetPosY()][player.GetPosX()])
+					{
+						myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+						m_wildPigs[i].SetAlive(false);
+						m_wildPigs.erase(m_wildPigs.begin() + i);
+						player.SubstractHealth(1);
+					}
+					else
+						m_wildPigs[i].SetDirection(DirectionEnemys::DOWN);
+				}
+				break;
+			case DirectionEnemys::DOWN:
+				if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
+				{
+					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+					m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX(), m_wildPigs[i].GetPosY() + 1);
+					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
 				}
 				else
-					m_wildPigs[i].SetDirection(DirectionEnemys::RIGHT);
-			}
-			break;
-		case DirectionEnemys::RIGHT:
-			if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
-			{
-				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
-				m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX() + 1, m_wildPigs[i].GetPosY());
-				myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
-			}
-			else
-			{
-				if (myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX() + 1] == PLAYER_UP)
 				{
-					m_wildPigs[i].SetDirection(DirectionEnemys::LEFT);
-					m_wildPigs[i].SetAlive(false);
-					m_wildPigs.erase(m_wildPigs.begin() + i);
-					player.SubstractHealth(1);
+					if (myRoom[m_wildPigs[i].GetPosY() + 1][m_wildPigs[i].GetPosX()]
+						== myRoom[player.GetPosY()][player.GetPosX()])
+					{
+						myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+						m_wildPigs[i].SetAlive(false);
+						m_wildPigs.erase(m_wildPigs.begin() + i);
+						player.SubstractHealth(1);
+					}
+					else
+						m_wildPigs[i].SetDirection(DirectionEnemys::UP);
+				}
+				break;
+			case DirectionEnemys::LEFT:
+				if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
+				{
+					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+					m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX() - 1, m_wildPigs[i].GetPosY());
+					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
 				}
 				else
-					m_wildPigs[i].SetDirection(DirectionEnemys::LEFT);
+				{
+					if (myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX() - 1]
+						== myRoom[player.GetPosY()][player.GetPosX()])
+					{
+						myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+						m_wildPigs[i].SetAlive(false);
+						m_wildPigs.erase(m_wildPigs.begin() + i);
+						player.SubstractHealth(1);
+					}
+					else
+						m_wildPigs[i].SetDirection(DirectionEnemys::RIGHT);
+				}
+				break;
+			case DirectionEnemys::RIGHT:
+				if (EnemiesCheckMovement(myRoom, m_wildPigs[i], m_wildPigs[i].GetDirection()))
+				{
+					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+					m_wildPigs[i].SetPosition(m_wildPigs[i].GetPosX() + 1, m_wildPigs[i].GetPosY());
+					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_WILDPIG;
+				}
+				else
+				{
+					if (myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX() + 1]
+						== myRoom[player.GetPosY()][player.GetPosX()])
+					{
+						myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
+						m_wildPigs[i].SetAlive(false);
+						m_wildPigs.erase(m_wildPigs.begin() + i);
+						player.SubstractHealth(1);
+					}
+					else
+						m_wildPigs[i].SetDirection(DirectionEnemys::LEFT);
+				}
+				break;
+			default:
+				break;
 			}
-			break;
-		default:
-			break;
-		}
 	}
+	cont = 0;
 }
+	
 
 bool Room::EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction)
 {
@@ -299,4 +304,52 @@ bool Room::EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const Dir
 		break;
 	}	
 	return movementCheck;
+}
+
+void Room::Attack(char** myRoom, Player& player)
+{
+	for (int i = 0; i < m_wildPigs.size(); i++)
+	{
+
+
+		switch (player.GetDirection())
+		{
+		case Movement::UP:
+			if (myRoom[player.GetPosY() - 1][player.GetPosX()] == CHAR_WILDPIG)
+			{
+				myRoom[player.GetPosY() - 1][player.GetPosX()] = CHAR_EMPTY;
+				m_wildPigs[i].SetAlive(false);
+				m_wildPigs.erase(m_wildPigs.begin() + i);
+			}
+
+			break;
+		case Movement::LEFT:
+			if (myRoom[player.GetPosY()][player.GetPosX() - 1] == CHAR_WILDPIG)
+			{
+				myRoom[player.GetPosY()][player.GetPosX() - 1] = CHAR_EMPTY;
+				m_wildPigs[i].SetAlive(false);
+				m_wildPigs.erase(m_wildPigs.begin() + i);
+			}
+
+			break;
+		case Movement::RIGHT:
+			if (myRoom[player.GetPosY()][player.GetPosX() + 1] == CHAR_WILDPIG)
+			{
+				myRoom[player.GetPosY()][player.GetPosX() + 1] = CHAR_EMPTY;
+				m_wildPigs[i].SetAlive(false);
+				m_wildPigs.erase(m_wildPigs.begin() + i);
+			}
+			break;
+		case Movement::DOWN:
+			if (myRoom[player.GetPosY() + 1][player.GetPosX()] == CHAR_WILDPIG)
+			{
+				myRoom[player.GetPosY() + 1][player.GetPosX()] = CHAR_EMPTY;
+				m_wildPigs[i].SetAlive(false);
+				m_wildPigs.erase(m_wildPigs.begin() + i);
+			}
+			break;
+		default:
+			break;
+		}
+	}
 }

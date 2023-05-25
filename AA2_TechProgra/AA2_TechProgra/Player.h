@@ -41,7 +41,7 @@ public:
 	int GetPosY() const;
 	int GetScore()const;
 	int GetHealth()const;
-
+	Movement GetDirection()const;
 	
 
 	// METHODS 

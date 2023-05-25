@@ -35,3 +35,8 @@ const char PLAYER_DOWN = 'v';
 const char PLAYER_LEFT = '<';
 const char PLAYER_RIGHT = '>';
 
+//Enemies
+const int timeEnemyMoves = 10;
+const int healthEnemies = 1;
+const int healthGanon = 10;
+
