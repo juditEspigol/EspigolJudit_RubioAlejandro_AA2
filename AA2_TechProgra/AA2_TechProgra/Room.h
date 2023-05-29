@@ -34,7 +34,7 @@ public:
 	
 	// CONSTRUCTOR 
 	Room(TypeOfRoom typeofRoom, int width, int heigth);
-
+	
 	// GETTERS 
 	int GetWidth()const;
 	int GetHeight()const;
@@ -45,7 +45,7 @@ public:
 	// METHODS 
 	char** CreateRoom(const int& width, const int& height);
 	void PrintRoom(char** myRoom) const;
-
+	void DeleteDynamicArray(char** myRoom, std::list<Room>::iterator it);
 	// -------------------------  Pots  --------------------------------
 	void CreatePots(char** myRoom, const int& numPots);
 
@@ -57,4 +57,3 @@ public:
 	
 };
 
-void deleteDynamicArray(char** myRoom, std::list<Room>::iterator it);

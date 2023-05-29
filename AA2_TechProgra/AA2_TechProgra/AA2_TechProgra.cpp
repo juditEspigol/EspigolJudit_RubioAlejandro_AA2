@@ -96,7 +96,7 @@ int main()
             break;
         case Scenes::GAME:
 
-                if (p1.GetHealth() == 0)
+                if (p1.GetHealth() <= 0)
                     actualScene = Scenes::GAMEOVER;
                 // MOVEMENT PLAYER 
                 p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
@@ -106,6 +106,7 @@ int main()
 
                 if (p1.CollidesWithNextDoor(actualRoomIt->GetNextDoor()))
                 {
+                    actualRoomIt->DeleteDynamicArray(myRoom, actualRoomIt);
                     actualRoomIt++;
                     myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
                     p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
@@ -146,5 +147,5 @@ int main()
         Sleep(1000 / FPS);
         system("cls");
     }
-    deleteDynamicArray(myRoom, actualRoomIt);
+    actualRoomIt->DeleteDynamicArray(myRoom, actualRoomIt);
 }
