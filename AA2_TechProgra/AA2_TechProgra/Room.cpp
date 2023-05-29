@@ -1,12 +1,12 @@
 #include "Room.h"
 
 // CONSTRUCTOR
+
 Room::Room(TypeOfRoom typeRoom, int width, int height)
 {
 	m_typeRoom = typeRoom;
 	m_width = width;
 	m_height = height;
-
 	if (m_typeRoom == TypeOfRoom::CLASSROOM)
 	{
 		m_prevDoor = -1;
@@ -92,6 +92,8 @@ void Room::PrintRoom(char** myRoom)const
 				std::cout << RED_TEXT << myRoom[y][x];
 			else if (myRoom[y][x] == CHAR_WILDPIG)
 				std::cout << RED_TEXT << myRoom[y][x];
+			else if (myRoom[y][x] == CHAR_GANON)
+				std::cout << GREEN_TEXT << myRoom[y][x];
 			else if (myRoom[y][x] == CHAR_GEM_GREEN)
 				std::cout << GREEN_TEXT << myRoom[y][x];
 			else if (myRoom[y][x] == CHAR_GEM_BLUE)
@@ -102,7 +104,6 @@ void Room::PrintRoom(char** myRoom)const
 				std::cout << GREEN_TEXT << myRoom[y][x];
 			else
 				std::cout << GRAY_TEXT << myRoom[y][x];
-
 		}
 		std::cout << " ";
 	}
@@ -169,6 +170,22 @@ void Room::CreateEnemys(char** myRoom, const int& numPigs)
 		{
 			m_wildPigs.push_back(enemy);
 			myRoom[enemy.GetPosY()][enemy.GetPosX()] = CHAR_WILDPIG;
+		}
+	}
+}
+
+void Room::CreateGanon(char** myRoom)
+{
+	bool ganonCreated = false;
+	while (ganonCreated == false)
+	{
+		Ganon ganon(m_width, m_height);
+
+		if (myRoom[ganon.GetPosY()][ganon.GetPosX()] == CHAR_EMPTY)
+		{
+			m_ganon.push_back(ganon);
+			myRoom[ganon.GetPosY()][ganon.GetPosX()] = CHAR_GANON;
+			ganonCreated = true;
 		}
 	}
 }
@@ -378,49 +395,3 @@ void Room::Attack(char** myRoom, Player& player)
 		break;
 	}
 }
-
-//void Room::Attack(char** myRoom, Player& player)
-//{
-//	for (int i = 0; i < m_wildPigs.size(); i++)
-//	{
-//		switch (player.GetDirection())
-//		{
-//		case Movement::UP:
-//			if (myRoom[player.GetPosY() - 1][player.GetPosX()] == CHAR_WILDPIG)
-//			{
-//				myRoom[player.GetPosY() - 1][player.GetPosX()] = CHAR_EMPTY;
-//				m_wildPigs[i].SetAlive(false);
-//				m_wildPigs.erase(m_wildPigs.begin() + i);
-//			}
-//
-//			break;
-//		case Movement::LEFT:
-//			if (myRoom[player.GetPosY()][player.GetPosX() - 1] == CHAR_WILDPIG)
-//			{
-//				myRoom[player.GetPosY()][player.GetPosX() - 1] = CHAR_EMPTY;
-//				m_wildPigs[i].SetAlive(false);
-//				m_wildPigs.erase(m_wildPigs.begin() + i);
-//			}
-//
-//			break;
-//		case Movement::RIGHT:
-//			if (myRoom[player.GetPosY()][player.GetPosX() + 1] == CHAR_WILDPIG)
-//			{
-//				myRoom[player.GetPosY()][player.GetPosX() + 1] = CHAR_EMPTY;
-//				m_wildPigs[i].SetAlive(false);
-//				m_wildPigs.erase(m_wildPigs.begin() + i);
-//			}
-//			break;
-//		case Movement::DOWN:
-//			if (myRoom[player.GetPosY() + 1][player.GetPosX()] == CHAR_WILDPIG)
-//			{
-//				myRoom[player.GetPosY() + 1][player.GetPosX()] = CHAR_EMPTY;
-//				m_wildPigs[i].SetAlive(false);
-//				m_wildPigs.erase(m_wildPigs.begin() + i);
-//			}
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-//}

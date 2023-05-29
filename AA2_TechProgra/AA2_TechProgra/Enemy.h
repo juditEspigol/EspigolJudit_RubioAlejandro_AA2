@@ -56,6 +56,8 @@ public:
 
 	int GetPosY() const;
 
+	bool GetAlive()const;
+
 	void SetAlive(const bool& alive);
 
 	DirectionEnemys GetDirection() const;

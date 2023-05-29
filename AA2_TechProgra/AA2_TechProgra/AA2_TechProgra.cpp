@@ -48,6 +48,7 @@ int main()
     p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
     actualRoomIt->CreatePots(myRoom, 4);
     actualRoomIt->CreateEnemys(myRoom, 4);
+    actualRoomIt->CreateGanon(myRoom);
     
     bool selectPlay = true;
 
@@ -129,6 +130,7 @@ int main()
 
                 std::cout << std::endl << " Health --> " << p1.GetHealth();
                 std::cout << std::endl << " Rupias --> " << p1.GetScore();
+                std::cout << actualRoomIt->m_ganon[0].GetPosY() << actualRoomIt->m_ganon[0].GetPosX();
             break;
         case Scenes::GAMEOVER:
 

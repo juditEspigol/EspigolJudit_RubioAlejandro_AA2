@@ -28,10 +28,10 @@ private:
 
 	std::vector<RewardObject> m_pots;
 	std::vector<WildPig> m_wildPigs;
-	//Ganon ganon;
+	
 
 public:	
-	
+	std::vector<Ganon> m_ganon;
 	// CONSTRUCTOR 
 	Room(TypeOfRoom typeofRoom, int width, int heigth);
 	
@@ -54,6 +54,9 @@ public:
  	void MoveEnemys(char** myRoom, Player& player, int& cont); // S'haura d'arreglar
 	bool EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction);
 	void Attack(char** myRoom, Player& player);
-	
+
+	// -------------------------  Ganon  -------------------------------
+	void CreateGanon(char** myRoom);
+	void MoveGanon(char** myRoom, Player& player, )
 };
 
