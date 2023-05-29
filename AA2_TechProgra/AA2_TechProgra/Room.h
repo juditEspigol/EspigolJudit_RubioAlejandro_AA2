@@ -26,6 +26,8 @@ private:
 
 	int m_width;
 	int m_height;
+	int m_numWildPigs; 
+	int m_numPots; 
 
 	std::vector<RewardObject> m_pots;
 	std::vector<WildPig> m_wildPigs;
@@ -34,7 +36,7 @@ private:
 public:	
 	std::vector<Ganon> m_ganon;
 	// CONSTRUCTOR 
-	Room(TypeOfRoom typeofRoom, int width, int heigth);
+	Room(TypeOfRoom typeofRoom, int width, int heigth, int enemys, int pots);
 	
 	// GETTERS 
 	int GetWidth()const;
@@ -50,10 +52,10 @@ public:
 	void DeleteDynamicArray(char** myRoom, std::list<Room>::iterator it);
 	void Gameover(TypeOfRoom typeOfRoom);
 	// -------------------------  Pots  --------------------------------
-	void CreatePots(char** myRoom, const int& numPots);
+	void CreatePots(char** myRoom);
 
 	// ------------------------  Enemies ----------------------------
-	void CreateEnemys(char** myRoom, const int& numPigs);
+	void CreateEnemys(char** myRoom);
  	void MoveEnemys(char** myRoom, Player& player); // S'haura d'arreglar
 	bool EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction);
 

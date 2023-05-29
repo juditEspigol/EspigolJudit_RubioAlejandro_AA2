@@ -31,7 +31,7 @@ private:
 	
 public:
 	// CONSTRUCTOR
-	Player();
+	Player(int health);
 
 	int m_score;
 

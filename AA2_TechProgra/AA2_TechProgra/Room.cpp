@@ -2,11 +2,13 @@
 
 // CONSTRUCTOR
 
-Room::Room(TypeOfRoom typeRoom, int width, int height)
+Room::Room(TypeOfRoom typeRoom, int width, int height, int enemys, int pots)
 {
 	m_typeRoom = typeRoom;
 	m_width = width;
 	m_height = height;
+	m_numWildPigs = enemys;
+	m_numPots = pots; 
 	if (m_typeRoom == TypeOfRoom::CLASSROOM)
 	{
 		m_prevDoor = -1;
@@ -148,10 +150,10 @@ void printTypeOfRoom(TypeOfRoom typeRoom)
 	}
 }
 
-void Room::CreatePots(char** myRoom, const int& numPots)
+void Room::CreatePots(char** myRoom)
 {
 	m_pots.clear();
-	while (m_pots.size() < numPots)
+	while (m_pots.size() < m_numPots)
 	{
 		RewardObject pot(m_width, m_height);
 
@@ -164,10 +166,10 @@ void Room::CreatePots(char** myRoom, const int& numPots)
 }
 
 
-void Room::CreateEnemys(char** myRoom, const int& numPigs)
+void Room::CreateEnemys(char** myRoom)
 {
 	m_wildPigs.clear();
-	while (m_wildPigs.size() < numPigs)
+	while (m_wildPigs.size() < m_numWildPigs)
 	{
 		WildPig enemy(m_width, m_height);
 

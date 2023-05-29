@@ -1,12 +1,12 @@
 #include "Player.h"
 
 // CONSTRUCTOR
-Player::Player()
+Player::Player(int health)
 {
 	m_name = "Link";
 	m_sprite = PLAYER_UP;
 	m_score = 0;
-	m_health = 5;
+	m_health = health;
 }
 
  // GETTERS 
