@@ -548,3 +548,23 @@ bool Room::GanonDie()const
 	else
 		return false;
 }
+
+void Room::Gameover(TypeOfRoom typeOfRoom)
+{
+	if (typeOfRoom == TypeOfRoom::CAFE)
+	{
+		if (m_ganon[0].GetHealth() <= 0)
+		{
+			std::cout << std::endl << std::endl << std::endl
+				<< "				Congrats, you have defeated Ganon and you rescued Enti" << std::endl;
+
+		}
+	}
+	else
+	{
+
+		std::cout << std::endl << std::endl << std::endl 
+			<< "							You have lost!" << std::endl;
+		std::cout << "						Good luck in your next try" << std::endl;
+	}
+}

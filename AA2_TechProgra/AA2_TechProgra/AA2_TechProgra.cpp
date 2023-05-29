@@ -53,6 +53,8 @@ int main()
 
     while (actualScene != Scenes::EXIT)
     {
+        if (p1.GetHealth() == 0)
+            std::cout << ' a';
         // INPUT 
         keyboard[static_cast<int>(InputKey::K_ESC)] = GetAsyncKeyState(VK_ESCAPE);
         keyboard[static_cast<int>(InputKey::K_LEFT)] = GetAsyncKeyState(VK_LEFT);
@@ -68,7 +70,10 @@ int main()
 
             // UPDATE / TICK
             if (frameCount == 20)
+            {
                 actualScene = Scenes::MENU;
+                frameCount = 0;
+            }
             frameCount++;
 
             // RENDER / DRAW
@@ -97,7 +102,10 @@ int main()
         case Scenes::GAME:
 
                 if (p1.GetHealth() <= 0)
+                {
                     actualScene = Scenes::GAMEOVER;
+                    break;
+                }
 
                 if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE && actualRoomIt->GanonDie())
                     actualScene = Scenes::GAMEOVER;
@@ -125,7 +133,6 @@ int main()
                     p1.PosPlayerPrevRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
                     actualRoomIt->CreatePots(myRoom, 4);
                     actualRoomIt->CreateEnemys(myRoom, 4);
-                    actualRoomIt->CreateGanon(myRoom);
                 }
                 if (cont == timeEnemyMoves)
                 {
@@ -150,12 +157,16 @@ int main()
    
             break;
         case Scenes::GAMEOVER:
-
+            actualRoomIt->Gameover(actualRoomIt->GetTypeOfRoom());
+            if (frameCount == 50)
+            {
+                actualScene = Scenes::MENU;
+                frameCount = 0;
+            }
+            frameCount++;
             break;
         default:
-
             actualScene = Scenes::EXIT; 
-
             break;
         }
         if (keyboard[static_cast<int>(InputKey::K_ESC)])

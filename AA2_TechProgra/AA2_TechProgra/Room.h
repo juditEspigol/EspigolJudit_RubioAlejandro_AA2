@@ -2,6 +2,7 @@
 #include "RewardObject.h"
 #include "Enemy.h"
 
+enum class Scenes;
 class Player;
 class RewardObject;
 enum class TypeOfRoom 
@@ -47,6 +48,7 @@ public:
 	char** CreateRoom(const int& width, const int& height);
 	void PrintRoom(char** myRoom) const;
 	void DeleteDynamicArray(char** myRoom, std::list<Room>::iterator it);
+	void Gameover(TypeOfRoom typeOfRoom);
 	// -------------------------  Pots  --------------------------------
 	void CreatePots(char** myRoom, const int& numPots);
 
