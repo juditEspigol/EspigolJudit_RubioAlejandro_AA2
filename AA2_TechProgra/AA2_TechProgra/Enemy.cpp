@@ -48,6 +48,7 @@ Ganon::Ganon(const int& width, const int& height)
 	m_posX = rand() % (width - 2) + 1; 
 	m_posY = rand() % (height - 2) + 1;
 	m_direction = static_cast<DirectionEnemys>(rand() % 4);
+	m_damage = 2;
 	m_health = 10;
 	m_isAlive = true;
 }
@@ -86,4 +87,24 @@ DirectionEnemys Ganon::GetDirection() const
 void Ganon::SetDirection(DirectionEnemys newDirection)
 {
 	m_direction = newDirection;
+}
+
+void Ganon::RandomDirection()
+{
+	m_direction = static_cast<DirectionEnemys>(rand() % 4);
+}
+
+void Ganon::SubstractHealth(const int& value)
+{
+	m_health -= value;
+}
+
+int Ganon::GetDamage()const
+{
+	return m_damage;
+}
+
+int Ganon::GetHealth()const
+{
+	return m_health;
 }

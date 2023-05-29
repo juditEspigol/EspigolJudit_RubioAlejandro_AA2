@@ -41,6 +41,7 @@ public:
 
 	int GetPrevDoor()const;
 	int GetNextDoor()const;
+	TypeOfRoom GetTypeOfRoom()const;
 
 	// METHODS 
 	char** CreateRoom(const int& width, const int& height);
@@ -51,12 +52,17 @@ public:
 
 	// ------------------------  Enemies ----------------------------
 	void CreateEnemys(char** myRoom, const int& numPigs);
- 	void MoveEnemys(char** myRoom, Player& player, int& cont); // S'haura d'arreglar
+ 	void MoveEnemys(char** myRoom, Player& player); // S'haura d'arreglar
 	bool EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction);
-	void Attack(char** myRoom, Player& player);
 
 	// -------------------------  Ganon  -------------------------------
 	void CreateGanon(char** myRoom);
-	void MoveGanon(char** myRoom, Player& player, )
+	void MoveGanon(char** myRoom, Player& player);
+	bool GanonCheckMovement(char** myRoom, const DirectionEnemys& direction);
+	void ShowHealth()const;
+	bool GanonDie()const;
+	// -------------------------   Link   -------------------------------
+	void Attack(char** myRoom, Player& player);
 };
+
 

@@ -42,6 +42,7 @@ class Ganon
 	int m_posY;
 	int m_health;
 	bool m_isAlive;
+	int m_damage;
 
 	// char m_sprite;
 	DirectionEnemys m_direction;
@@ -58,9 +59,15 @@ public:
 
 	bool GetAlive()const;
 
+	int GetHealth()const;
+
+	int GetDamage()const;
+
 	void SetAlive(const bool& alive);
 
 	DirectionEnemys GetDirection() const;
 
 	void SetDirection(DirectionEnemys newDirection);
+	void RandomDirection();
+	void SubstractHealth(const int& value);
 };

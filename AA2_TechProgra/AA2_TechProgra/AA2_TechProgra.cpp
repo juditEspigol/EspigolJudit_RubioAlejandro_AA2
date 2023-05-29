@@ -48,7 +48,6 @@ int main()
     p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
     actualRoomIt->CreatePots(myRoom, 4);
     actualRoomIt->CreateEnemys(myRoom, 4);
-    actualRoomIt->CreateGanon(myRoom);
     
     bool selectPlay = true;
 
@@ -99,6 +98,9 @@ int main()
 
                 if (p1.GetHealth() <= 0)
                     actualScene = Scenes::GAMEOVER;
+
+                if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE && actualRoomIt->GanonDie())
+                    actualScene = Scenes::GAMEOVER;
                 // MOVEMENT PLAYER 
                 p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
 
@@ -113,6 +115,8 @@ int main()
                     p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
                     actualRoomIt->CreatePots(myRoom, 4);
                     actualRoomIt->CreateEnemys(myRoom, 4);
+                    if(actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
+                        actualRoomIt->CreateGanon(myRoom);
                 }
                 else if (p1.CollidesWithPrevDoor(actualRoomIt->GetPrevDoor(), actualRoomIt->GetHeight()))
                 {
@@ -121,16 +125,29 @@ int main()
                     p1.PosPlayerPrevRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
                     actualRoomIt->CreatePots(myRoom, 4);
                     actualRoomIt->CreateEnemys(myRoom, 4);
+                    actualRoomIt->CreateGanon(myRoom);
                 }
-                if(cont == timeEnemyMoves)
-                    actualRoomIt->MoveEnemys(myRoom, p1, cont); 
+                if (cont == timeEnemyMoves)
+                {
+                    actualRoomIt->MoveEnemys(myRoom, p1); 
+                    if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
+                    {
+                        actualRoomIt->MoveGanon(myRoom, p1); 
+                    }
+                    cont = 0;
+                }
 
                 // PRINT ROOM
                 actualRoomIt->PrintRoom(myRoom);
 
                 std::cout << std::endl << " Health --> " << p1.GetHealth();
+                if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
+                {
+                    std::cout << "           Ganon Health --> ";
+                    actualRoomIt->ShowHealth();
+                }
                 std::cout << std::endl << " Rupias --> " << p1.GetScore();
-                std::cout << actualRoomIt->m_ganon[0].GetPosY() << actualRoomIt->m_ganon[0].GetPosX();
+   
             break;
         case Scenes::GAMEOVER:
 
