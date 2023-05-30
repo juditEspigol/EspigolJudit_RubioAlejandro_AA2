@@ -10,7 +10,7 @@ int main()
 	int cont = 0;
 
 	// INITIALIZATION
-	Scenes actualScene = Scenes::GAME;
+	Scenes actualScene = Scenes::INIT;
 
 	bool keyboard[static_cast<int>(InputKey::COUNT)] = {};
 
@@ -69,6 +69,7 @@ int main()
 		keyboard[static_cast<int>(InputKey::K_UP)] = GetAsyncKeyState(VK_UP);
 		keyboard[static_cast<int>(InputKey::K_DOWN)] = GetAsyncKeyState(VK_DOWN);
 		keyboard[static_cast<int>(InputKey::K_SPACE)] = GetAsyncKeyState(VK_SPACE);
+		keyboard[static_cast<int>(InputKey::K_RETURN)] = GetAsyncKeyState(VK_RETURN);
 
 		// UPDATE
 		switch (actualScene)
@@ -94,9 +95,9 @@ int main()
 			else if (keyboard[static_cast<int>(InputKey::K_UP)])
 				selectPlay = true;
 
-			if (selectPlay && keyboard[static_cast<int>(InputKey::K_SPACE)])
+			if (selectPlay && keyboard[static_cast<int>(InputKey::K_RETURN)])
 				actualScene = Scenes::GAME;
-			else if (!selectPlay && keyboard[static_cast<int>(InputKey::K_SPACE)])
+			else if (!selectPlay && keyboard[static_cast<int>(InputKey::K_RETURN)])
 				actualScene = Scenes::EXIT;
 
 			// RENDER / DRAW

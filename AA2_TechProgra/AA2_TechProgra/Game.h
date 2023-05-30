@@ -19,6 +19,7 @@ enum class InputKey
     K_UP,
     K_DOWN,
     K_SPACE,
+    K_RETURN,
     COUNT,
     INVALID
 };
