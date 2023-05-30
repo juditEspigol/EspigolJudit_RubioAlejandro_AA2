@@ -376,32 +376,24 @@ void Room::MoveGanon(char** myRoom, Player& player)
 
 bool Room::EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction)
 {
-	bool movementCheck;
+	bool movementCheck = false;
 	switch (direction)
 	{
 	case DirectionEnemys::UP:
 		if (myRoom[wildpig.GetPosY() - 1][wildpig.GetPosX()] == CHAR_EMPTY)
 			movementCheck = true;
-		else
-			movementCheck = false;
 		break;
 	case DirectionEnemys::DOWN:
 		if (myRoom[wildpig.GetPosY() + 1][wildpig.GetPosX()] == CHAR_EMPTY)
 			movementCheck = true;
-		else
-			movementCheck = false;
 		break;
 	case DirectionEnemys::LEFT:
 		if (myRoom[wildpig.GetPosY()][wildpig.GetPosX() - 1] == CHAR_EMPTY)
 			movementCheck = true;
-		else
-			movementCheck = false;
 		break;
 	case DirectionEnemys::RIGHT:
 		if (myRoom[wildpig.GetPosY()][wildpig.GetPosX() + 1] == CHAR_EMPTY)
 			movementCheck = true;
-		else
-			movementCheck = false;
 		break;
 	default:
 		break;
@@ -419,40 +411,28 @@ bool Room::GanonCheckMovement(char** myRoom, const DirectionEnemys& direction, c
 			movementCheck = true;
 		else if (myRoom[m_ganon[0].GetPosY() - 1][m_ganon[0].GetPosX()]
 			== myRoom[player.GetPosY()][player.GetPosX()])
-		{
-			movementCheck = false;
-			player.SubstractHealth(1);
-		}
+				player.SubstractHealth(1);
 		break;
 	case DirectionEnemys::DOWN:
 		if (myRoom[m_ganon[0].GetPosY() + 1][m_ganon[0].GetPosX()] == CHAR_EMPTY)
 			movementCheck = true;
 		else if (myRoom[m_ganon[0].GetPosY() - 1][m_ganon[0].GetPosX()]
 			== myRoom[player.GetPosY()][player.GetPosX()])
-		{
-			movementCheck = false;
-			player.SubstractHealth(1);
-		}
+				player.SubstractHealth(1);
 		break;
 	case DirectionEnemys::LEFT:
 		if (myRoom[m_ganon[0].GetPosY()][m_ganon[0].GetPosX() - 1] == CHAR_EMPTY)
 			movementCheck = true;
 		else if (myRoom[m_ganon[0].GetPosY() - 1][m_ganon[0].GetPosX()]
 			== myRoom[player.GetPosY()][player.GetPosX()])
-		{
-			movementCheck = false;
-			player.SubstractHealth(1);
-		}
+				player.SubstractHealth(1);
 		break;
 	case DirectionEnemys::RIGHT:
 		if (myRoom[m_ganon[0].GetPosY()][m_ganon[0].GetPosX() + 1] == CHAR_EMPTY)
 			movementCheck = true;
 		else if (myRoom[m_ganon[0].GetPosY() - 1][m_ganon[0].GetPosX()]
 			== myRoom[player.GetPosY()][player.GetPosX()])
-		{
-			movementCheck = false;
-			player.SubstractHealth(1);
-		}
+				player.SubstractHealth(1);
 		break;
 	default:
 		break;

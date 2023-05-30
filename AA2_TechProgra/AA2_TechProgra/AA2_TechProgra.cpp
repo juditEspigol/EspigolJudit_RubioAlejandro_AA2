@@ -171,6 +171,8 @@ int main()
 				p1.ResetPlayer(livesLink, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
 				if(actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
 					actualRoomIt->GanonReset(livesGanon);
+				actualRoomIt->DeleteDynamicArray(myRoom, actualRoomIt);
+				myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
 			}
 			frameCount++;
 			break;
