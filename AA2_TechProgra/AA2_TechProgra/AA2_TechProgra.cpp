@@ -60,8 +60,6 @@ int main()
 
 	while (actualScene != Scenes::EXIT)
 	{
-		if (p1.GetHealth() == 0)
-			std::cout << ' a';
 		// INPUT 
 		keyboard[static_cast<int>(InputKey::K_ESC)] = GetAsyncKeyState(VK_ESCAPE);
 		keyboard[static_cast<int>(InputKey::K_LEFT)] = GetAsyncKeyState(VK_LEFT);
@@ -132,7 +130,7 @@ int main()
 				actualRoomIt->CreatePots(myRoom);
 				actualRoomIt->CreateEnemys(myRoom);
 				if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
-					actualRoomIt->CreateGanon(myRoom);
+					actualRoomIt->CreateGanon(myRoom, livesGanon);
 			}
 			else if (p1.CollidesWithPrevDoor(actualRoomIt->GetPrevDoor(), actualRoomIt->GetHeight()))
 			{
@@ -142,7 +140,7 @@ int main()
 				actualRoomIt->CreatePots(myRoom);
 				actualRoomIt->CreateEnemys(myRoom);
 			}
-			if (cont == timeEnemyMoves)
+			if (cont == TIME_ENEMY_MOVES)
 			{
 				actualRoomIt->MoveEnemys(myRoom, p1);
 				if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
@@ -162,14 +160,17 @@ int main()
 				actualRoomIt->ShowHealth();
 			}
 			std::cout << std::endl << " Rupias --> " << p1.GetScore();
-
+			cont++;
 			break;
 		case Scenes::GAMEOVER:
-			actualRoomIt->Gameover(actualRoomIt->GetTypeOfRoom());
+			actualRoomIt->Gameover(actualRoomIt->GetTypeOfRoom(), p1);
 			if (frameCount == 50)
 			{
 				actualScene = Scenes::MENU;
 				frameCount = 0;
+				p1.ResetPlayer(livesLink, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+				if(actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
+					actualRoomIt->GanonReset(livesGanon);
 			}
 			frameCount++;
 			break;
@@ -181,7 +182,6 @@ int main()
 			actualScene = Scenes::EXIT;
 
 		// FRAME CONTROL 
-		cont++;
 		Sleep(1000 / FPS);
 		system("cls");
 	}

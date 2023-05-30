@@ -17,9 +17,11 @@ const std::string GRAY_TEXT = "\x1b[38;5;246m";
 const std::string YELLOW_TEXT = "\x1b[38;5;11m";
 const std::string GREEN_TEXT = "\x1b[38;5;49m";
 const std::string RED_TEXT = "\x1b[31m";
+const std::string BLUE_TEXT = "\x1b[38;5;33m";
+const std::string PINK_TEXT = "\x1b[38;5;5m";
 
 // ROOM CHARS
-const char CHAR_DOOR = 'P';
+const char CHAR_DOOR = 'D';
 const char CHAR_WALL = 'X';
 const char CHAR_EMPTY = ' ';
 const char CHAR_POT = 'O';
@@ -36,7 +38,9 @@ const char PLAYER_LEFT = '<';
 const char PLAYER_RIGHT = '>';
 
 //Enemies
-const int timeEnemyMoves = 10;
-const int healthEnemies = 1;
-const int healthGanon = 10;
+const int TIME_ENEMY_MOVES = 10;
+const int WILDPIGS_DAMAGE = 1;
+
+//Ganon
+const int GANON_DAMAGE = 2;
 

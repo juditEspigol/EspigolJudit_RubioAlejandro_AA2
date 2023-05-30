@@ -50,7 +50,7 @@ public:
 	char** CreateRoom(const int& width, const int& height);
 	void PrintRoom(char** myRoom) const;
 	void DeleteDynamicArray(char** myRoom, std::list<Room>::iterator it);
-	void Gameover(TypeOfRoom typeOfRoom);
+	void Gameover(TypeOfRoom typeOfRoom, const Player& player);
 	// -------------------------  Pots  --------------------------------
 	void CreatePots(char** myRoom);
 
@@ -60,11 +60,13 @@ public:
 	bool EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction);
 
 	// -------------------------  Ganon  -------------------------------
-	void CreateGanon(char** myRoom);
+	void CreateGanon(char** myRoom, const int& health);
 	void MoveGanon(char** myRoom, Player& player);
-	bool GanonCheckMovement(char** myRoom, const DirectionEnemys& direction);
+	bool GanonCheckMovement(char** myRoom, const DirectionEnemys& direction, const Ganon& ganon, Player& player);
 	void ShowHealth()const;
 	bool GanonDie()const;
+	void GanonReset(const int& health);
+
 	// -------------------------   Link   -------------------------------
 	void Attack(char** myRoom, Player& player);
 };

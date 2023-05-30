@@ -21,6 +21,7 @@ private:
 	Movement m_move; 
 	char m_sprite;
 	int m_health;
+	int m_score;
 
 	// METHODS 
 	void SetPosition(char** myRoom);
@@ -31,9 +32,9 @@ private:
 	
 public:
 	// CONSTRUCTOR
-	Player(int health);
+	Player(const int& health);
 
-	int m_score;
+	
 
 	// GETTERS
 	std::string GetName() const; 
@@ -58,6 +59,7 @@ public:
 	bool CollidesWithNextDoor(const int& nextDoorX);
 	void AddScore(char** myRoom, const Movement& move);
 	void SubstractHealth(const int& value);
+	void ResetPlayer(const int& width, const int& height, const int& health);
 	
 	
 

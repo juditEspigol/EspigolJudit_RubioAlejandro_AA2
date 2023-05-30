@@ -1,7 +1,7 @@
 #include "Player.h"
 
 // CONSTRUCTOR
-Player::Player(int health)
+Player::Player(const int& health)
 {
 	m_name = "Link";
 	m_sprite = PLAYER_UP;
@@ -270,3 +270,10 @@ Movement Player::GetDirection()const
 	return m_move;
 }
 
+void Player::ResetPlayer(const int& width, const int& height, const int& health)
+{
+	m_health = health;
+	m_posX = width / 2;
+	m_posY = height/ 2;
+	m_sprite = PLAYER_UP;
+}
