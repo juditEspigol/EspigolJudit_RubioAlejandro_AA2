@@ -55,7 +55,8 @@ public:
 
 	// ------------------------  Enemies ----------------------------
 	void CreateEnemys(char** myRoom);
- 	void MoveEnemys(char** myRoom, Player& player); // S'haura d'arreglar
+ 	void MoveEnemys(char** myRoom, Player& player);
+	void EnemiesDeath(char** myRoom, Player& player, const int& cont);
 	bool EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction);
 
 	// -------------------------  Ganon  -------------------------------

@@ -224,10 +224,7 @@ void Room::MoveEnemys(char** myRoom, Player& player)
 				if (myRoom[m_wildPigs[i].GetPosY() - 1][m_wildPigs[i].GetPosX()]
 					== myRoom[player.GetPosY()][player.GetPosX()])
 				{
-					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
-					m_wildPigs[i].SetAlive(false);
-					m_wildPigs.erase(m_wildPigs.begin() + i);
-					player.SubstractHealth(WILDPIGS_DAMAGE);
+					EnemiesDeath(myRoom, player, i);
 				}
 				else
 					m_wildPigs[i].SetDirection(DirectionEnemys::DOWN);
@@ -245,10 +242,7 @@ void Room::MoveEnemys(char** myRoom, Player& player)
 				if (myRoom[m_wildPigs[i].GetPosY() + 1][m_wildPigs[i].GetPosX()]
 					== myRoom[player.GetPosY()][player.GetPosX()])
 				{
-					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
-					m_wildPigs[i].SetAlive(false);
-					m_wildPigs.erase(m_wildPigs.begin() + i);
-					player.SubstractHealth(WILDPIGS_DAMAGE);
+					EnemiesDeath(myRoom, player, i);
 				}
 				else
 					m_wildPigs[i].SetDirection(DirectionEnemys::UP);
@@ -266,10 +260,7 @@ void Room::MoveEnemys(char** myRoom, Player& player)
 				if (myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX() - 1]
 					== myRoom[player.GetPosY()][player.GetPosX()])
 				{
-					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
-					m_wildPigs[i].SetAlive(false);
-					m_wildPigs.erase(m_wildPigs.begin() + i);
-					player.SubstractHealth(WILDPIGS_DAMAGE);
+					EnemiesDeath(myRoom, player, i);
 				}
 				else
 					m_wildPigs[i].SetDirection(DirectionEnemys::RIGHT);
@@ -287,20 +278,24 @@ void Room::MoveEnemys(char** myRoom, Player& player)
 				if (myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX() + 1]
 					== myRoom[player.GetPosY()][player.GetPosX()])
 				{
-					myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()] = CHAR_EMPTY;
-					m_wildPigs[i].SetAlive(false);
-					m_wildPigs.erase(m_wildPigs.begin() + i);
-					player.SubstractHealth(WILDPIGS_DAMAGE);
+					EnemiesDeath(myRoom, player, i);
 				}
 				else
 					m_wildPigs[i].SetDirection(DirectionEnemys::LEFT);
 			}
 			break;
-		default:
-			break;
 		}
 	}
 }
+
+void Room::EnemiesDeath(char** myRoom, Player& player, const int& cont)
+{
+	myRoom[m_wildPigs[cont].GetPosY()][m_wildPigs[cont].GetPosX()] = CHAR_EMPTY;
+	m_wildPigs[cont].SetAlive(false);
+	m_wildPigs.erase(m_wildPigs.begin() + cont);
+	player.SubstractHealth(WILDPIGS_DAMAGE);
+}
+
 
 bool Room::EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction)
 {
