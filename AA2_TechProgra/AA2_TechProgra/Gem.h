@@ -10,15 +10,18 @@ private:
 	int m_value; 
 
 public:
-	// Constructor
+
+	// CONSTRUCTOR
 	Gem(); 
 
-	// Getter
+	// GETTER
 	char GetType() const;
-	int GetValue() const; 
-	// Setter
+	int GetValue() const;
+	void GetValue(const int& value);
+
+	// SETTER
 	void SetType(const char& type); 
-	void GetValue(const int& value); 
+	
 };
 
 char spawnRandomGem();

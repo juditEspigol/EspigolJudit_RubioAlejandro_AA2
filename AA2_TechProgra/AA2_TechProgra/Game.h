@@ -31,5 +31,3 @@ void printMenu();
 void printSelectExit(); 
 
 void printSelectPlay(); 
-
-Scenes Lose(Player& player);

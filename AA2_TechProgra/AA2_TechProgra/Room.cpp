@@ -1,5 +1,27 @@
 #include "Room.h"
 
+void printTypeOfRoom(TypeOfRoom typeRoom)
+{
+	switch (typeRoom)
+	{
+	case TypeOfRoom::CLASSROOM:
+		std::cout << " -- CLASSROOM -- " << std::endl;
+		break;
+	case TypeOfRoom::HALL:
+		std::cout << " -- HALL -- " << std::endl;
+		break;
+	case TypeOfRoom::CAFE:
+		std::cout << " -- CAFE -- " << std::endl;
+		break;
+	case TypeOfRoom::COUNT:
+		std::cout << "  " << std::endl;
+		break;
+	default:
+		break;
+	}
+}
+
+
 // CONSTRUCTOR
 
 Room::Room(TypeOfRoom typeRoom, int width, int height, int enemys, int pots)
@@ -27,6 +49,7 @@ Room::Room(TypeOfRoom typeRoom, int width, int height, int enemys, int pots)
 }
 
 // GETTERS
+
 int Room::GetWidth()const
 {
 	return m_width;
@@ -37,14 +60,14 @@ int Room::GetHeight()const
 	return m_height;
 }
 
-int Room::GetNextDoor()const
-{
-	return m_nextDoor;
-}
-
 int Room::GetPrevDoor()const
 {
 	return m_prevDoor;
+}
+
+int Room::GetNextDoor()const
+{
+	return m_nextDoor;
 }
 
 TypeOfRoom Room::GetTypeOfRoom()const
@@ -116,7 +139,6 @@ void Room::PrintRoom(char** myRoom)const
 	std::cout << std::endl;
 }
 
-// FUNCTIONS 
 void Room::DeleteDynamicArray(char** myRoom, std::list<Room>::iterator it)
 {
 	for (int i = 0; i < it->GetWidth(); i++)
@@ -128,26 +150,29 @@ void Room::DeleteDynamicArray(char** myRoom, std::list<Room>::iterator it)
 	myRoom = nullptr;
 }
 
-void printTypeOfRoom(TypeOfRoom typeRoom)
+void Room::Gameover(TypeOfRoom typeOfRoom, const Player& player)
 {
-	switch (typeRoom)
+	if (typeOfRoom == TypeOfRoom::CAFE)
 	{
-	case TypeOfRoom::CLASSROOM:
-		std::cout << " -- CLASSROOM -- " << std::endl;
-		break;
-	case TypeOfRoom::HALL:
-		std::cout << " -- HALL -- " << std::endl;
-		break;
-	case TypeOfRoom::CAFE:
-		std::cout << " -- CAFE -- " << std::endl;
-		break;
-	case TypeOfRoom::COUNT:
-		std::cout << "  " << std::endl;
-		break;
-	default:
-		break;
+		if (m_ganon[0].GetHealth() <= 0)
+		{
+			std::cout << std::endl << std::endl << std::endl
+				<< "				Congrats, you have defeated Ganon and you rescued Enti";
+			std::cout << std::endl << "				  		  " << player.GetName() << " score is: " << player.GetScore();
+		}
+	}
+	else
+	{
+
+		std::cout << std::endl << std::endl << std::endl
+			<< "							You have lost!" << std::endl;
+		std::cout << "						Good luck in your next try";
+		std::cout << std::endl << "							" << player.GetName() << " score is: " << player.GetScore();
+
 	}
 }
+
+// -------------------  POTS  ---------------------
 
 void Room::CreatePots(char** myRoom)
 {
@@ -164,6 +189,7 @@ void Room::CreatePots(char** myRoom)
 	}
 }
 
+// -------------------  ENEMIES  ------------------
 
 void Room::CreateEnemys(char** myRoom)
 {
@@ -176,22 +202,6 @@ void Room::CreateEnemys(char** myRoom)
 		{
 			m_wildPigs.push_back(enemy);
 			myRoom[enemy.GetPosY()][enemy.GetPosX()] = CHAR_WILDPIG;
-		}
-	}
-}
-
-void Room::CreateGanon(char** myRoom, const int& health)
-{
-	bool ganonCreated = false;
-	while (ganonCreated == false)
-	{
-		Ganon ganon(m_width, m_height, health);
-
-		if (myRoom[ganon.GetPosY()][ganon.GetPosX()] == CHAR_EMPTY)
-		{
-			m_ganon.push_back(ganon);
-			myRoom[ganon.GetPosY()][ganon.GetPosX()] = CHAR_GANON;
-			ganonCreated = true;
 		}
 	}
 }
@@ -292,6 +302,50 @@ void Room::MoveEnemys(char** myRoom, Player& player)
 	}
 }
 
+bool Room::EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction)
+{
+	bool movementCheck = false;
+	switch (direction)
+	{
+	case DirectionEnemys::UP:
+		if (myRoom[wildpig.GetPosY() - 1][wildpig.GetPosX()] == CHAR_EMPTY)
+			movementCheck = true;
+		break;
+	case DirectionEnemys::DOWN:
+		if (myRoom[wildpig.GetPosY() + 1][wildpig.GetPosX()] == CHAR_EMPTY)
+			movementCheck = true;
+		break;
+	case DirectionEnemys::LEFT:
+		if (myRoom[wildpig.GetPosY()][wildpig.GetPosX() - 1] == CHAR_EMPTY)
+			movementCheck = true;
+		break;
+	case DirectionEnemys::RIGHT:
+		if (myRoom[wildpig.GetPosY()][wildpig.GetPosX() + 1] == CHAR_EMPTY)
+			movementCheck = true;
+		break;
+	default:
+		break;
+	}
+	return movementCheck;
+}
+
+// -------------------  GANON  --------------------
+void Room::CreateGanon(char** myRoom, const int& health)
+{
+	bool ganonCreated = false;
+	while (ganonCreated == false)
+	{
+		Ganon ganon(m_width, m_height, health);
+
+		if (myRoom[ganon.GetPosY()][ganon.GetPosX()] == CHAR_EMPTY)
+		{
+			m_ganon.push_back(ganon);
+			myRoom[ganon.GetPosY()][ganon.GetPosX()] = CHAR_GANON;
+			ganonCreated = true;
+		}
+	}
+}
+
 void Room::MoveGanon(char** myRoom, Player& player)
 {
 	m_ganon[0].RandomDirection();
@@ -373,33 +427,6 @@ void Room::MoveGanon(char** myRoom, Player& player)
 	}
 }
 
-bool Room::EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction)
-{
-	bool movementCheck = false;
-	switch (direction)
-	{
-	case DirectionEnemys::UP:
-		if (myRoom[wildpig.GetPosY() - 1][wildpig.GetPosX()] == CHAR_EMPTY)
-			movementCheck = true;
-		break;
-	case DirectionEnemys::DOWN:
-		if (myRoom[wildpig.GetPosY() + 1][wildpig.GetPosX()] == CHAR_EMPTY)
-			movementCheck = true;
-		break;
-	case DirectionEnemys::LEFT:
-		if (myRoom[wildpig.GetPosY()][wildpig.GetPosX() - 1] == CHAR_EMPTY)
-			movementCheck = true;
-		break;
-	case DirectionEnemys::RIGHT:
-		if (myRoom[wildpig.GetPosY()][wildpig.GetPosX() + 1] == CHAR_EMPTY)
-			movementCheck = true;
-		break;
-	default:
-		break;
-	}
-	return movementCheck;
-}
-
 bool Room::GanonCheckMovement(char** myRoom, const DirectionEnemys& direction, const Ganon& ganon, Player& player)
 {
 	bool movementCheck = false;
@@ -439,6 +466,26 @@ bool Room::GanonCheckMovement(char** myRoom, const DirectionEnemys& direction, c
 	return movementCheck;
 }
 
+void Room::ShowHealth()const
+{
+	std::cout << m_ganon[0].GetHealth();
+}
+
+bool Room::GanonDie()const
+{
+	if (m_ganon[0].GetHealth() <= 0)
+		return true;
+	else
+		return false;
+}
+
+void Room::GanonReset(const int& health)
+{
+	m_ganon[0].SetHealth(health);
+}
+
+// -------------------  LINK  --------------------
+
 void Room::Attack(char** myRoom, Player& player)
 {
 	switch (player.GetDirection())
@@ -449,7 +496,7 @@ void Room::Attack(char** myRoom, Player& player)
 		{
 			for (int i = 0; i < m_wildPigs.size(); i++)
 			{
-				if (player.GetPosY() - 1 == m_wildPigs[i].GetPosY() 
+				if (player.GetPosY() - 1 == m_wildPigs[i].GetPosY()
 					&& player.GetPosX() == m_wildPigs[i].GetPosX())
 				{
 					myRoom[player.GetPosY() - 1][player.GetPosX()] = CHAR_EMPTY;
@@ -487,7 +534,7 @@ void Room::Attack(char** myRoom, Player& player)
 
 		if (myRoom[player.GetPosY()][player.GetPosX() + 1] == CHAR_WILDPIG)
 		{
- 			for (int i = 0; i < m_wildPigs.size(); i++)
+			for (int i = 0; i < m_wildPigs.size(); i++)
 			{
 				if (player.GetPosY() == m_wildPigs[i].GetPosY()
 					&& player.GetPosX() + 1 == m_wildPigs[i].GetPosX())
@@ -526,49 +573,4 @@ void Room::Attack(char** myRoom, Player& player)
 	default:
 		break;
 	}
-}
-
-void Room::ShowHealth()const
-{
-	std::cout << m_ganon[0].GetHealth();
-}
-
-bool Room::GanonDie()const
-{
-	if (m_ganon[0].GetHealth() <= 0)
-		return true;
-	else
-		return false;
-}
-
-void Room::Gameover(TypeOfRoom typeOfRoom, const Player& player)
-{
-	if (typeOfRoom == TypeOfRoom::CAFE)
-	{
-		if (m_ganon[0].GetHealth() <= 0)
-		{
-			std::cout << std::endl << std::endl << std::endl
-				<< "				Congrats, you have defeated Ganon and you rescued Enti";
-			std::cout << std::endl << "							" << player.GetName() << " score is: " << player.GetScore();
-		}
-	}
-	else
-	{
-
-		std::cout << std::endl << std::endl << std::endl 
-			<< "							You have lost!" << std::endl;
-		std::cout << "						Good luck in your next try";
-		std::cout << std::endl << "							" << player.GetName() << " score is: " << player.GetScore();
-
-	}
-}
-
-void Room::GanonReset(const int& health)
-{
-	m_ganon[0].SetHealth(health);
-}
-
-void Room::SetTypeOfRoom(const TypeOfRoom& typeOfRoom)
-{
-	m_typeRoom = typeOfRoom;
 }

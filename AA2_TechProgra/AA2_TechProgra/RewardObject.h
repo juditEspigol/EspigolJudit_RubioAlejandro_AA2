@@ -10,13 +10,13 @@ class RewardObject
 
 public:
 
+	//CONSTRUCTOR
 	RewardObject(const int& width,const int& height);
 
-	void SetPosition(char** myRoom);
-
+	//GETTERS
 	int GetPosX() const;
-	
 	int GetPosY() const;
 
+	//METHODS
 	void ResetPos(const int& width, const int& height);
 };

@@ -1,6 +1,7 @@
 
 #include "RewardObject.h"
 
+//CONSTRUCTOR
 
 RewardObject::RewardObject(const int& width, const int& height)
 {
@@ -9,9 +10,7 @@ RewardObject::RewardObject(const int& width, const int& height)
 	m_posY = rand() % (height - 2) + 1;
 }
 
-void RewardObject::SetPosition(char** myRoom)
-{
-}
+//GETTERS
 
 int RewardObject::GetPosX() const
 {
@@ -22,6 +21,8 @@ int RewardObject::GetPosY() const
 {
 	return m_posY;
 }
+
+//SETTERS
 
 void RewardObject::ResetPos(const int& width, const int& height)
 {

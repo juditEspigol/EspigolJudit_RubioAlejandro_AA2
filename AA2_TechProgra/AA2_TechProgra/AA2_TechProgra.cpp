@@ -109,6 +109,11 @@ int main()
 
 			case Scenes::GAME:
 
+
+				// You can use CONTROL KEY to lose health in order to prove things
+				if (GetAsyncKeyState(VK_CONTROL))
+					p1.SubstractHealth(1);
+
 				if (p1.GetHealth() <= 0)
 				{
 					actualScene = Scenes::GAMEOVER;
@@ -122,7 +127,6 @@ int main()
 				}
 
 				// MOVEMENT PLAYER 
-
 				p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
 
 				if (keyboard[static_cast<int>(InputKey::K_SPACE)])
@@ -159,8 +163,7 @@ int main()
 					cont = 0;
 				}
 
-				if (GetAsyncKeyState(VK_CONTROL))
-					p1.SubstractHealth(1);
+				
 
 				// PRINT ROOM
 				actualRoomIt->PrintRoom(myRoom);

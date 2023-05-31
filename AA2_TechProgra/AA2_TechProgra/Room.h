@@ -31,23 +31,19 @@ private:
 
 	std::vector<RewardObject> m_pots;
 	std::vector<WildPig> m_wildPigs;
-	
+	std::vector<Ganon> m_ganon;
 
 public:	
-	std::vector<Ganon> m_ganon;
+	
 	// CONSTRUCTOR 
 	Room(TypeOfRoom typeofRoom, int width, int heigth, int enemys, int pots);
 	
 	// GETTERS 
 	int GetWidth()const;
 	int GetHeight()const;
-
 	int GetPrevDoor()const;
 	int GetNextDoor()const;
 	TypeOfRoom GetTypeOfRoom()const;
-
-	// SETTERS	
-	void SetTypeOfRoom(const TypeOfRoom& typeOfRoom);
 
 	// METHODS 
 	char** CreateRoom(const int& width, const int& height);
@@ -72,6 +68,6 @@ public:
 
 	// -------------------------   Link   -------------------------------
 	void Attack(char** myRoom, Player& player);
-};
+};	
 
 

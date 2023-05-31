@@ -15,25 +15,22 @@ class WildPig
 	int m_posY;
 	bool m_isAlive;
 
-	// char m_sprite;
 	DirectionEnemys m_direction; 
 
 public: 
 
+	//CONSTRUCTOR
 	WildPig(const int& width, const int& height);
 
-	void SetPosition(const int& posX, const int& posY);
-
+	//GETTERS
 	int GetPosX() const;
-
 	int GetPosY() const;
+	DirectionEnemys GetDirection() const;
 
+	//SETTERS
+	void SetPosition(const int& posX, const int& posY);
 	void SetAlive(const bool& alive);
-
-	DirectionEnemys GetDirection() const; 
-
 	void SetDirection(DirectionEnemys newDirection); 
-	
 };
 
 class Ganon
@@ -43,15 +40,14 @@ class Ganon
 	int m_health;
 	bool m_isAlive;
 
-	// char m_sprite;
 	DirectionEnemys m_direction;
 
 public:
 
+	//CONSTRUCTOR
 	Ganon(const int& width, const int& height, const int& health);
 
-	void SetPosition(const int& posX, const int& posY);
-
+	//GETTERS
 	int GetPosX() const;
 
 	int GetPosY() const;
@@ -60,12 +56,15 @@ public:
 
 	int GetHealth()const;
 
-	void SetAlive(const bool& alive);
-	void SetHealth(const int& health);
-
 	DirectionEnemys GetDirection() const;
 
+	//SETTERS
+	void SetPosition(const int& posX, const int& posY);
+	void SetAlive(const bool& alive);
+	void SetHealth(const int& health);
 	void SetDirection(DirectionEnemys newDirection);
+
+	//METHODS 
 	void RandomDirection();
 	void SubstractHealth(const int& value);
 };

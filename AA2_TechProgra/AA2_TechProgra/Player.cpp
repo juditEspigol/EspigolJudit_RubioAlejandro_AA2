@@ -1,5 +1,49 @@
 #include "Player.h"
 
+
+// ------------------- PRIVATE ----------------------
+
+void Player::SetPosition(char** myRoom)
+{
+	myRoom[m_posY][m_posX] = m_sprite;
+}
+
+bool Player::CheckNextPos(char** myRoom)
+{
+	bool canMove = true;
+
+	switch (m_move)
+	{
+	case Movement::UP:
+		if (myRoom[m_posY - 1][m_posX] == CHAR_WALL || myRoom[m_posY - 1][m_posX] == CHAR_POT)
+			canMove = false;
+		break;
+	case Movement::LEFT:
+		if (myRoom[m_posY][m_posX - 1] == CHAR_WALL || myRoom[m_posY][m_posX - 1] == CHAR_POT)
+			canMove = false;
+		break;
+	case Movement::RIGHT:
+		if (myRoom[m_posY][m_posX + 1] == CHAR_WALL || myRoom[m_posY][m_posX + 1] == CHAR_POT)
+			canMove = false;
+		break;
+	case Movement::DOWN:
+		if (myRoom[m_posY + 1][m_posX] == CHAR_WALL || myRoom[m_posY + 1][m_posX] == CHAR_POT)
+			canMove = false;
+		break;
+	default:
+		break;
+	}
+
+	return canMove;
+}
+
+void Player::ClearPosPlayer(char** myRoom)
+{
+	myRoom[m_posY][m_posX] = CHAR_EMPTY;
+}
+
+// ------------------- PUBLIC ----------------------
+
 // CONSTRUCTOR
 Player::Player(const int& health)
 {
@@ -25,45 +69,20 @@ int Player::GetPosY() const
 	 return m_posY;
  }
 
- // PRIVATE METHODS 
-void Player::SetPosition(char** myRoom)
- {
-	 myRoom[m_posY][m_posX] = m_sprite;
- }
+int Player::GetScore()const
+{
+	return m_score;
+}
 
-bool Player::CheckNextPos(char** myRoom)
- {
-	 bool canMove = true;
+int Player::GetHealth()const
+{
+	return m_health;
+}
 
-	 switch (m_move)
-	 {
-	 case Movement::UP:
-		 if (myRoom[m_posY - 1][m_posX] == CHAR_WALL || myRoom[m_posY - 1][m_posX] == CHAR_POT)
-			 canMove = false;
-		 break;
-	 case Movement::LEFT:
-		 if (myRoom[m_posY][m_posX - 1] == CHAR_WALL || myRoom[m_posY][m_posX - 1] == CHAR_POT)
-			 canMove = false;
-		 break;
-	 case Movement::RIGHT:
-		 if (myRoom[m_posY][m_posX + 1] == CHAR_WALL || myRoom[m_posY][m_posX + 1] == CHAR_POT)
-			 canMove = false;
-		 break;
-	 case Movement::DOWN:
-		 if (myRoom[m_posY + 1][m_posX] == CHAR_WALL || myRoom[m_posY + 1][m_posX] == CHAR_POT)
-			 canMove = false;
-		 break;
-	 default:
-		 break;
-	 }
-
-	 return canMove;
- }
-
-void Player::ClearPosPlayer(char** myRoom)
- {
-	 myRoom[m_posY][m_posX] = CHAR_EMPTY;
- }
+Movement Player::GetDirection()const
+{
+	return m_move;
+}
 
  // PUBLIC METHODS 
 void Player::PrintPlayer(const Movement& movement)
@@ -99,9 +118,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 
 		if (CheckNextPos(myRoom))
 		{
-			ClearPosPlayer(myRoom);
-			GemAddScore(myRoom,m_move);
-			m_posY--;
+			Move(myRoom);
 		}
 	}
 
@@ -112,9 +129,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 
 		if (CheckNextPos(myRoom))
 		{
-			ClearPosPlayer(myRoom);
-			GemAddScore(myRoom, m_move);
-			m_posX--;
+			Move(myRoom);
 		}
 	}
 
@@ -124,9 +139,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 		m_sprite = PLAYER_RIGHT;
 		if (CheckNextPos(myRoom))
 		{
-			ClearPosPlayer(myRoom);
-			GemAddScore(myRoom, m_move);
-			m_posX++;
+			Move(myRoom);
 		}
 	}
 
@@ -137,17 +150,90 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 
 		if (CheckNextPos(myRoom))
 		{
-			ClearPosPlayer(myRoom);
-			GemAddScore(myRoom, m_move);
-			m_posY++;
+			Move(myRoom);
 		}
 	}
 	if (GetAsyncKeyState(VK_SPACE))
 	{
-		Attack(myRoom, m_move);
+		AttackPots(myRoom, m_move);
 	}
 
 	SetPosition(myRoom);
+}
+
+void Player::Move(char** myRoom)
+{
+	ClearPosPlayer(myRoom);
+	GemAddScore(myRoom, m_move);
+	switch (m_move)
+	{
+		case Movement::UP:
+
+			if (myRoom[GetPosY() - 1][GetPosX()] == CHAR_WILDPIG)
+				SubstractHealth(WILDPIGS_DAMAGE);
+			else if (myRoom[GetPosY() - 1][GetPosX()] == CHAR_GANON)
+				SubstractHealth(GANON_DAMAGE);
+
+			m_posY--;
+			break;
+		case Movement::LEFT:
+
+			if (myRoom[GetPosY()][GetPosX() - 1] == CHAR_WILDPIG)
+				SubstractHealth(WILDPIGS_DAMAGE);
+			else if (myRoom[GetPosY()][GetPosX() - 1] == CHAR_GANON)
+				SubstractHealth(GANON_DAMAGE);
+
+			m_posX--;
+			break;
+		case Movement::RIGHT:
+
+			if(myRoom[GetPosY()][GetPosX() + 1] == CHAR_WILDPIG)
+				SubstractHealth(WILDPIGS_DAMAGE);
+			else if (myRoom[GetPosY()][GetPosX() + 1] == CHAR_GANON)
+				SubstractHealth(GANON_DAMAGE);
+
+			m_posX++;
+			break;
+		case Movement::DOWN:
+
+			if(myRoom[GetPosY() + 1][GetPosX()] == CHAR_WILDPIG)
+				SubstractHealth(WILDPIGS_DAMAGE);
+			else if(myRoom[GetPosY() + 1][GetPosX()] == CHAR_GANON)
+				SubstractHealth(GANON_DAMAGE);
+
+			m_posY++;
+			break;
+	}
+}
+
+	// We tried to create a method in order to not repeat all this code, 
+	// but the solve which we have arrived is create a mehotd with a new switch but is inefficient.
+	// If you're reading this we would like to read in feedback a way of optimize this method if
+	// you have time, ty ^^
+
+void Player::AttackPots(char** myRoom, const Movement& move)
+{
+	switch (move)
+	{
+	case Movement::UP:
+		if (myRoom[m_posY - 1][m_posX] == CHAR_POT)
+			myRoom[m_posY - 1][m_posX] = spawnRandomGem();
+		break;
+	case Movement::LEFT:
+		if (myRoom[m_posY][m_posX - 1] == CHAR_POT)
+			myRoom[m_posY][m_posX - 1] = spawnRandomGem();
+		break;
+	case Movement::RIGHT:
+		if (myRoom[m_posY][m_posX + 1] == CHAR_POT)
+			myRoom[m_posY][m_posX + 1] = spawnRandomGem();
+		break;
+	case Movement::DOWN:
+		if (myRoom[m_posY + 1][m_posX] == CHAR_POT)
+			myRoom[m_posY + 1][m_posX] = spawnRandomGem();
+		break;
+	default:
+		break;
+	}
 }
 
 void Player::PosPlayerPrevRoom(char** myRoom, const int& width, const int& height)
@@ -180,34 +266,9 @@ bool Player::CollidesWithNextDoor(const int& nextDoorX)
 	return false; 
 }
 
-void Player::Attack(char** myRoom,const Movement& move)
+void Player::EnemiesAddScore(const int& value)
 {
-	switch (move)
-	{
-	case Movement::UP:
-		if (myRoom[m_posY - 1][m_posX] == CHAR_POT)
-			myRoom[m_posY - 1][m_posX] = spawnRandomGem();
-		break;
-	case Movement::LEFT:
-		if (myRoom[m_posY][m_posX - 1] == CHAR_POT)
-			myRoom[m_posY][m_posX - 1] = spawnRandomGem();
-		break;
-	case Movement::RIGHT:
-		if (myRoom[m_posY][m_posX + 1] == CHAR_POT)
-			myRoom[m_posY][m_posX + 1] = spawnRandomGem();
-		break;
-	case Movement::DOWN:
-		if (myRoom[m_posY + 1][m_posX] == CHAR_POT)
-			myRoom[m_posY + 1][m_posX] = spawnRandomGem();
-		break;
-	default:
-		break;
-	}
-}
-
-int Player::GetScore()const
-{
-	return m_score;
+	m_score += value;
 }
 
 void Player::GemAddScore(char** myRoom, const Movement& move)
@@ -249,24 +310,11 @@ void Player::GemAddScore(char** myRoom, const Movement& move)
 	default:
 		break;
 	}
-
-
-	
-}
-
-int Player::GetHealth()const
-{
-	return m_health;
 }
 
 void Player::SubstractHealth(const int& value)
 {
 	m_health -= value;
-}
-
-Movement Player::GetDirection()const
-{
-	return m_move;
 }
 
 void Player::ResetPlayer(const int& health)
@@ -275,7 +323,3 @@ void Player::ResetPlayer(const int& health)
 	m_sprite = PLAYER_UP;
 }
 
-void Player::EnemiesAddScore(const int& value)
-{
-	m_score += value;
-}

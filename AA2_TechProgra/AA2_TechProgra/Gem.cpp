@@ -22,24 +22,29 @@ default:
 }
 	}
 
-// Getter
+// GETTER
 char Gem::GetType() const
 {
 	return m_type;
 }
+
 int Gem::GetValue() const
 {
 	return m_value; 
+
 }
-// Setter
+
+void Gem::GetValue(const int& value)
+{
+	m_value = value;
+}
+
+// SETTER
 void Gem::SetType(const char& type)
 {
 	m_type = type;
 }
-void Gem::GetValue(const int& value)
-{
-	m_value = value; 
-}
+
 
 char spawnRandomGem()
 {
