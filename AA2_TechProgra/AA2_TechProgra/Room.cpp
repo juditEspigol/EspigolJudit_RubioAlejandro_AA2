@@ -568,3 +568,8 @@ void Room::GanonReset(const int& health)
 {
 	m_ganon[0].SetHealth(health);
 }
+
+void Room::SetTypeOfRoom(const TypeOfRoom& typeOfRoom)
+{
+	m_typeRoom = typeOfRoom;
+}

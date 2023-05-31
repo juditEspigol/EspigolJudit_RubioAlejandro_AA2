@@ -150,6 +150,8 @@ int main()
 				cont = 0;
 			}
 
+			if (GetAsyncKeyState(VK_CONTROL))
+				p1.SubstractHealth(1);
 			// PRINT ROOM
 			actualRoomIt->PrintRoom(myRoom);
 
@@ -168,11 +170,18 @@ int main()
 			{
 				actualScene = Scenes::MENU;
 				frameCount = 0;
-				p1.ResetPlayer(livesLink, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+				p1.ResetPlayer(livesLink);
+
 				if(actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
 					actualRoomIt->GanonReset(livesGanon);
+
 				actualRoomIt->DeleteDynamicArray(myRoom, actualRoomIt);
+				actualRoomIt = rooms.begin();
 				myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+				p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+				actualRoomIt->CreatePots(myRoom);
+				actualRoomIt->CreateEnemys(myRoom);
+				
 			}
 			frameCount++;
 			break;

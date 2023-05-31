@@ -270,10 +270,8 @@ Movement Player::GetDirection()const
 	return m_move;
 }
 
-void Player::ResetPlayer(const int& width, const int& height, const int& health)
+void Player::ResetPlayer(const int& health)
 {
 	m_health = health;
-	m_posX = width / 2;
-	m_posY = height/ 2;
 	m_sprite = PLAYER_UP;
 }

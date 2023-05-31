@@ -46,6 +46,9 @@ public:
 	int GetNextDoor()const;
 	TypeOfRoom GetTypeOfRoom()const;
 
+	// SETTERS	
+	void SetTypeOfRoom(const TypeOfRoom& typeOfRoom);
+
 	// METHODS 
 	char** CreateRoom(const int& width, const int& height);
 	void PrintRoom(char** myRoom) const;

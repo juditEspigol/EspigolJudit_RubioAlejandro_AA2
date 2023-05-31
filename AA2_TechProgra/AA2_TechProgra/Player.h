@@ -31,6 +31,7 @@ private:
 	void ClearPosPlayer(char** myRoom);
 	
 public:
+
 	// CONSTRUCTOR
 	Player(const int& health);
 
@@ -59,7 +60,7 @@ public:
 	bool CollidesWithNextDoor(const int& nextDoorX);
 	void AddScore(char** myRoom, const Movement& move);
 	void SubstractHealth(const int& value);
-	void ResetPlayer(const int& width, const int& height, const int& health);
+	void ResetPlayer(const int& health);
 	
 	
 
