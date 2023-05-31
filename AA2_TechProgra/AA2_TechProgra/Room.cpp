@@ -296,7 +296,6 @@ void Room::EnemiesDeath(char** myRoom, Player& player, const int& cont)
 	player.SubstractHealth(WILDPIGS_DAMAGE);
 }
 
-
 bool Room::EnemiesCheckMovement(char** myRoom, const WildPig& wildpig, const DirectionEnemys& direction)
 {
 	bool movementCheck = false;
