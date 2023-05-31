@@ -100,7 +100,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 		if (CheckNextPos(myRoom))
 		{
 			ClearPosPlayer(myRoom);
-			AddScore(myRoom,m_move);
+			GemAddScore(myRoom,m_move);
 			m_posY--;
 		}
 	}
@@ -113,7 +113,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 		if (CheckNextPos(myRoom))
 		{
 			ClearPosPlayer(myRoom);
-			AddScore(myRoom, m_move);
+			GemAddScore(myRoom, m_move);
 			m_posX--;
 		}
 	}
@@ -125,7 +125,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 		if (CheckNextPos(myRoom))
 		{
 			ClearPosPlayer(myRoom);
-			AddScore(myRoom, m_move);
+			GemAddScore(myRoom, m_move);
 			m_posX++;
 		}
 	}
@@ -138,7 +138,7 @@ void Player::MovementPlayer(char** myRoom, const int& width, const int& height)
 		if (CheckNextPos(myRoom))
 		{
 			ClearPosPlayer(myRoom);
-			AddScore(myRoom, m_move);
+			GemAddScore(myRoom, m_move);
 			m_posY++;
 		}
 	}
@@ -186,7 +186,7 @@ void Player::Attack(char** myRoom,const Movement& move)
 	{
 	case Movement::UP:
 		if (myRoom[m_posY - 1][m_posX] == CHAR_POT)
-			myRoom[m_posY - 1][m_posX] = spawnRandomGem(); //myRoom[m_posY - 1][m_posX] = CHAR_EMPTY;
+			myRoom[m_posY - 1][m_posX] = spawnRandomGem();
 		break;
 	case Movement::LEFT:
 		if (myRoom[m_posY][m_posX - 1] == CHAR_POT)
@@ -210,7 +210,7 @@ int Player::GetScore()const
 	return m_score;
 }
 
-void Player::AddScore(char** myRoom, const Movement& move)
+void Player::GemAddScore(char** myRoom, const Movement& move)
 {
 	switch (move)
 	{
@@ -254,7 +254,6 @@ void Player::AddScore(char** myRoom, const Movement& move)
 	
 }
 
-
 int Player::GetHealth()const
 {
 	return m_health;
@@ -274,4 +273,9 @@ void Player::ResetPlayer(const int& health)
 {
 	m_health = health;
 	m_sprite = PLAYER_UP;
+}
+
+void Player::EnemiesAddScore(const int& value)
+{
+	m_score += value;
 }

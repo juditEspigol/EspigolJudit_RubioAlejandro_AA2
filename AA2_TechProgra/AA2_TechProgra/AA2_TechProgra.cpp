@@ -72,123 +72,136 @@ int main()
 		// UPDATE
 		switch (actualScene)
 		{
-		case Scenes::INIT:
+			case Scenes::INIT:
 
-			// UPDATE / TICK
-			if (frameCount == 20)
-			{
-				actualScene = Scenes::MENU;
-				frameCount = 0;
-			}
-			frameCount++;
+				// UPDATE / TICK
+				if (frameCount == 20)
+				{
+					actualScene = Scenes::MENU;
+					frameCount = 0;
+				}
+				frameCount++;
 
-			// RENDER / DRAW
-			printInit();
-			break;
-		case Scenes::MENU:
-
-			// UPDATE / TICK
-			if (keyboard[static_cast<int>(InputKey::K_DOWN)]) // K_DOWN == TRUE
-				selectPlay = false;
-			else if (keyboard[static_cast<int>(InputKey::K_UP)])
-				selectPlay = true;
-
-			if (selectPlay && keyboard[static_cast<int>(InputKey::K_RETURN)])
-				actualScene = Scenes::GAME;
-			else if (!selectPlay && keyboard[static_cast<int>(InputKey::K_RETURN)])
-				actualScene = Scenes::EXIT;
-
-			// RENDER / DRAW
-			printMenu();
-			if (selectPlay)
-				printSelectPlay();
-			else
-				printSelectExit();
-			break;
-		case Scenes::GAME:
-
-			if (p1.GetHealth() <= 0)
-			{
-				actualScene = Scenes::GAMEOVER;
+				// RENDER / DRAW
+				printInit();
 				break;
-			}
 
-			if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE && actualRoomIt->GanonDie())
-				actualScene = Scenes::GAMEOVER;
-			// MOVEMENT PLAYER 
-			p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+			case Scenes::MENU:
 
-			if (keyboard[static_cast<int>(InputKey::K_SPACE)])
-				actualRoomIt->Attack(myRoom, p1);
+				// UPDATE / TICK
+				if (keyboard[static_cast<int>(InputKey::K_DOWN)]) // K_DOWN == TRUE
+					selectPlay = false;
+				else if (keyboard[static_cast<int>(InputKey::K_UP)])
+					selectPlay = true;
 
-			if (p1.CollidesWithNextDoor(actualRoomIt->GetNextDoor()))
-			{
-				actualRoomIt->DeleteDynamicArray(myRoom, actualRoomIt);
-				actualRoomIt++;
-				myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-				p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-				actualRoomIt->CreatePots(myRoom);
-				actualRoomIt->CreateEnemys(myRoom);
-				if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
-					actualRoomIt->CreateGanon(myRoom, livesGanon);
-			}
-			else if (p1.CollidesWithPrevDoor(actualRoomIt->GetPrevDoor(), actualRoomIt->GetHeight()))
-			{
-				actualRoomIt--;
-				myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-				p1.PosPlayerPrevRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-				actualRoomIt->CreatePots(myRoom);
-				actualRoomIt->CreateEnemys(myRoom);
-			}
-			if (cont == TIME_ENEMY_MOVES)
-			{
-				actualRoomIt->MoveEnemys(myRoom, p1);
+				if (selectPlay && keyboard[static_cast<int>(InputKey::K_RETURN)])
+					actualScene = Scenes::GAME;
+				else if (!selectPlay && keyboard[static_cast<int>(InputKey::K_RETURN)])
+					actualScene = Scenes::EXIT;
+
+				// RENDER / DRAW
+				printMenu();
+				if (selectPlay)
+					printSelectPlay();
+				else
+					printSelectExit();
+				break;
+
+			case Scenes::GAME:
+
+				if (p1.GetHealth() <= 0)
+				{
+					actualScene = Scenes::GAMEOVER;
+					break;
+				}
+
+				if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE && actualRoomIt->GanonDie())
+				{
+					p1.EnemiesAddScore(GANON_SCORE);
+					actualScene = Scenes::GAMEOVER;
+				}
+
+				// MOVEMENT PLAYER 
+
+				p1.MovementPlayer(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+
+				if (keyboard[static_cast<int>(InputKey::K_SPACE)])
+					actualRoomIt->Attack(myRoom, p1);
+
+				if (p1.CollidesWithNextDoor(actualRoomIt->GetNextDoor()))
+				{
+					actualRoomIt->DeleteDynamicArray(myRoom, actualRoomIt);
+					actualRoomIt++;
+					myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+					p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+					actualRoomIt->CreatePots(myRoom);
+					actualRoomIt->CreateEnemys(myRoom);
+					if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
+						actualRoomIt->CreateGanon(myRoom, livesGanon);
+				}
+
+				else if (p1.CollidesWithPrevDoor(actualRoomIt->GetPrevDoor(), actualRoomIt->GetHeight()))
+				{
+					actualRoomIt--;
+					myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+					p1.PosPlayerPrevRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+					actualRoomIt->CreatePots(myRoom);
+					actualRoomIt->CreateEnemys(myRoom);
+				}
+
+				if (cont == TIME_ENEMY_MOVES)
+				{
+					actualRoomIt->MoveEnemys(myRoom, p1);
+					if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
+					{
+						actualRoomIt->MoveGanon(myRoom, p1);
+					}
+					cont = 0;
+				}
+
+				if (GetAsyncKeyState(VK_CONTROL))
+					p1.SubstractHealth(1);
+
+				// PRINT ROOM
+				actualRoomIt->PrintRoom(myRoom);
+
+				std::cout << std::endl << " Health --> " << p1.GetHealth();
 				if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
 				{
-					actualRoomIt->MoveGanon(myRoom, p1);
+					std::cout << "           Ganon Health --> ";
+					actualRoomIt->ShowHealth();
 				}
-				cont = 0;
-			}
+				std::cout << std::endl << " Rupias --> " << p1.GetScore();
+				cont++;
+				break;
 
-			if (GetAsyncKeyState(VK_CONTROL))
-				p1.SubstractHealth(1);
-			// PRINT ROOM
-			actualRoomIt->PrintRoom(myRoom);
+			case Scenes::GAMEOVER:
 
-			std::cout << std::endl << " Health --> " << p1.GetHealth();
-			if (actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
-			{
-				std::cout << "           Ganon Health --> ";
-				actualRoomIt->ShowHealth();
-			}
-			std::cout << std::endl << " Rupias --> " << p1.GetScore();
-			cont++;
-			break;
-		case Scenes::GAMEOVER:
-			actualRoomIt->Gameover(actualRoomIt->GetTypeOfRoom(), p1);
-			if (frameCount == 50)
-			{
-				actualScene = Scenes::MENU;
-				frameCount = 0;
-				p1.ResetPlayer(livesLink);
+				actualRoomIt->Gameover(actualRoomIt->GetTypeOfRoom(), p1);
+				if (frameCount == 50)
+				{
+					actualScene = Scenes::MENU;
+					frameCount = 0;
+					p1.ResetPlayer(livesLink);
 
-				if(actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
-					actualRoomIt->GanonReset(livesGanon);
+					if(actualRoomIt->GetTypeOfRoom() == TypeOfRoom::CAFE)
+						actualRoomIt->GanonReset(livesGanon);
 
-				actualRoomIt->DeleteDynamicArray(myRoom, actualRoomIt);
-				actualRoomIt = rooms.begin();
-				myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-				p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
-				actualRoomIt->CreatePots(myRoom);
-				actualRoomIt->CreateEnemys(myRoom);
-				
-			}
-			frameCount++;
-			break;
-		default:
-			actualScene = Scenes::EXIT;
-			break;
+					actualRoomIt->DeleteDynamicArray(myRoom, actualRoomIt);
+					actualRoomIt = rooms.begin();
+					myRoom = actualRoomIt->CreateRoom(actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+					p1.PosPlayerNextRoom(myRoom, actualRoomIt->GetWidth(), actualRoomIt->GetHeight());
+					actualRoomIt->CreatePots(myRoom);
+					actualRoomIt->CreateEnemys(myRoom);
+				}
+				frameCount++;
+				break;
+
+			default:
+				actualScene = Scenes::EXIT;
+				break;
 		}
+
 		if (keyboard[static_cast<int>(InputKey::K_ESC)])
 			actualScene = Scenes::EXIT;
 

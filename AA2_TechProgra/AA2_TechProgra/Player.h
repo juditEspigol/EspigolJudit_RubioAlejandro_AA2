@@ -39,8 +39,8 @@ public:
 
 	// GETTERS
 	std::string GetName() const; 
-	int GetPosX() const;
-	int GetPosY() const;
+	int GetPosX()const;
+	int GetPosY()const;
 	int GetScore()const;
 	int GetHealth()const;
 	Movement GetDirection()const;
@@ -58,7 +58,9 @@ public:
 
 	bool CollidesWithPrevDoor(const int& prevDoorX, const int& height);
 	bool CollidesWithNextDoor(const int& nextDoorX);
-	void AddScore(char** myRoom, const Movement& move);
+	void EnemiesAddScore(const int& value);
+	void GemAddScore(char** myRoom, const Movement& move);
+
 	void SubstractHealth(const int& value);
 	void ResetPlayer(const int& health);
 	

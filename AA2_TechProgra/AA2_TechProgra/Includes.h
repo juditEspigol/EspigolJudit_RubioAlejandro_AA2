@@ -40,7 +40,9 @@ const char PLAYER_RIGHT = '>';
 //Enemies
 const int TIME_ENEMY_MOVES = 10;
 const int WILDPIGS_DAMAGE = 1;
+const int WILDPIGS_SCORE = 5;
 
 //Ganon
 const int GANON_DAMAGE = 2;
+const int GANON_SCORE = 150;
 

@@ -80,7 +80,6 @@ char** Room::CreateRoom(const int& width, const int& height)
 			}
 		}
 	}
-
 	return myRoom;
 }
 
@@ -454,8 +453,8 @@ void Room::Attack(char** myRoom, Player& player)
 					&& player.GetPosX() == m_wildPigs[i].GetPosX())
 				{
 					myRoom[player.GetPosY() - 1][player.GetPosX()] = CHAR_EMPTY;
-					m_wildPigs[i].SetAlive(false);
 					m_wildPigs.erase(m_wildPigs.begin() + i);
+					player.EnemiesAddScore(WILDPIGS_SCORE);
 				}
 			}
 		}
@@ -474,8 +473,8 @@ void Room::Attack(char** myRoom, Player& player)
 					&& player.GetPosX() - 1 == m_wildPigs[i].GetPosX())
 				{
 					myRoom[player.GetPosY()][player.GetPosX() - 1] = CHAR_EMPTY;
-					//m_wildPigs[i].SetAlive(false);
 					m_wildPigs.erase(m_wildPigs.begin() + i);
+					player.EnemiesAddScore(WILDPIGS_SCORE);
 				}
 			}
 		}
@@ -494,8 +493,8 @@ void Room::Attack(char** myRoom, Player& player)
 					&& player.GetPosX() + 1 == m_wildPigs[i].GetPosX())
 				{
 					myRoom[player.GetPosY()][player.GetPosX() + 1] = CHAR_EMPTY;
-					//m_wildPigs[i].SetAlive(false);
 					m_wildPigs.erase(m_wildPigs.begin() + i);
+					player.EnemiesAddScore(WILDPIGS_SCORE);
 				}
 			}
 		}
@@ -514,8 +513,8 @@ void Room::Attack(char** myRoom, Player& player)
 					&& player.GetPosX() == m_wildPigs[i].GetPosX())
 				{
 					myRoom[player.GetPosY() + 1][player.GetPosX()] = CHAR_EMPTY;
-					//m_wildPigs[i].SetAlive(false);
 					m_wildPigs.erase(m_wildPigs.begin() + i);
+					player.EnemiesAddScore(WILDPIGS_SCORE);
 				}
 			}
 		}
