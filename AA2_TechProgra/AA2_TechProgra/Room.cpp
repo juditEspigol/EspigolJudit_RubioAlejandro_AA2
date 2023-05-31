@@ -450,8 +450,8 @@ void Room::Attack(char** myRoom, Player& player)
 		{
 			for (int i = 0; i < m_wildPigs.size(); i++)
 			{
-				if (myRoom[player.GetPosY() - 1][player.GetPosX()]
-					== myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()])
+				if (player.GetPosY() - 1 == m_wildPigs[i].GetPosY() 
+					&& player.GetPosX() == m_wildPigs[i].GetPosX())
 				{
 					myRoom[player.GetPosY() - 1][player.GetPosX()] = CHAR_EMPTY;
 					m_wildPigs[i].SetAlive(false);
@@ -470,11 +470,11 @@ void Room::Attack(char** myRoom, Player& player)
 		{
 			for (int i = 0; i < m_wildPigs.size(); i++)
 			{
-				if (myRoom[player.GetPosY()][player.GetPosX() - 1]
-					== myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()])
+				if (player.GetPosY() == m_wildPigs[i].GetPosY()
+					&& player.GetPosX() - 1 == m_wildPigs[i].GetPosX())
 				{
 					myRoom[player.GetPosY()][player.GetPosX() - 1] = CHAR_EMPTY;
-					m_wildPigs[i].SetAlive(false);
+					//m_wildPigs[i].SetAlive(false);
 					m_wildPigs.erase(m_wildPigs.begin() + i);
 				}
 			}
@@ -488,13 +488,13 @@ void Room::Attack(char** myRoom, Player& player)
 
 		if (myRoom[player.GetPosY()][player.GetPosX() + 1] == CHAR_WILDPIG)
 		{
-			for (int i = 0; i < m_wildPigs.size(); i++)
+ 			for (int i = 0; i < m_wildPigs.size(); i++)
 			{
-				if (myRoom[player.GetPosY()][player.GetPosX() + 1]
-					== myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()])
+				if (player.GetPosY() == m_wildPigs[i].GetPosY()
+					&& player.GetPosX() + 1 == m_wildPigs[i].GetPosX())
 				{
 					myRoom[player.GetPosY()][player.GetPosX() + 1] = CHAR_EMPTY;
-					m_wildPigs[i].SetAlive(false);
+					//m_wildPigs[i].SetAlive(false);
 					m_wildPigs.erase(m_wildPigs.begin() + i);
 				}
 			}
@@ -510,11 +510,11 @@ void Room::Attack(char** myRoom, Player& player)
 		{
 			for (int i = 0; i < m_wildPigs.size(); i++)
 			{
-				if (myRoom[player.GetPosY() + 1][player.GetPosX()]
-					== myRoom[m_wildPigs[i].GetPosY()][m_wildPigs[i].GetPosX()])
+				if (player.GetPosY() + 1 == m_wildPigs[i].GetPosY()
+					&& player.GetPosX() == m_wildPigs[i].GetPosX())
 				{
 					myRoom[player.GetPosY() + 1][player.GetPosX()] = CHAR_EMPTY;
-					m_wildPigs[i].SetAlive(false);
+					//m_wildPigs[i].SetAlive(false);
 					m_wildPigs.erase(m_wildPigs.begin() + i);
 				}
 			}
